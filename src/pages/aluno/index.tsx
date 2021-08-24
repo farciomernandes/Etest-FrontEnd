@@ -1,4 +1,5 @@
-import { Button, Flex, Input, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import {  Input } from '../../components/Form/input';
 import Image from 'next/image'
 
 import logoImg from '../../assets/images/logo.svg';
@@ -47,22 +48,12 @@ export default function Home() {
           <Input
             name="matricula"
             type="text"
-            focusBorderColor="purple.800"
-            variant="outline"
-            _hover={{
-              bgColor: "white.900"
-            }}
-            size="lg"
+            placeholder="Matrícula"
           />
           <Input
             name="senha"
             type="password"
-            focusBorderColor="purple.800"
-            variant="outline"
-            _hover={{
-              bgColor: "white.900"
-            }}
-            size="lg"
+            placeholder="Senha"
           />
         </Stack>
 
