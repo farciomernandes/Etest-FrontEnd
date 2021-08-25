@@ -5,7 +5,8 @@ export const theme = extendTheme({
         white: {
             "900": "#FFFFFF",
             "700": "#FEFEFE",
-            "600": "#F7F9FF"
+            "600": "#F7F9FF",
+            "200": "#737380"
         },
         purple: {
             "800": "#5A17E9",

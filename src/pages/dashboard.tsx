@@ -19,10 +19,14 @@ export default function Dashboard() {
             <Text fontWeight="bold"> Marcio</Text>
           </Text>
 
-          <Text mt="5">
+          <Text mt="5" fontWeight="regular">
             Entre nas suas turmas e veja todos os comentários feitos
             pelos professores, confira já suas notas através do boletim,
             veja suas avaliações respondidas
+          </Text>
+
+          <Text mt="5" fontWeight="bold">
+            Esse daksdasdnassdpoas dNEGRITO
           </Text>
 
 
