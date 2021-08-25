@@ -8,6 +8,7 @@ import { VscSignOut } from 'react-icons/vsc';
 
 export default function Home() {
   return (
+    
     <Flex
       w="100vw"
       h="100vh"
@@ -94,5 +95,6 @@ export default function Home() {
 
       </Flex>
     </Flex>
+  
   )
 }

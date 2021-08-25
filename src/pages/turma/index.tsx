@@ -15,7 +15,11 @@ export default function Turma() {
         <Flex flexDir="column" justify="center" align="flex-start">
             <Text fontSize="4xl">Novos:</Text>
 
-            <Flex bg="red.500" w="65%" justify="center" align="flex-start" p="12"
+            <Flex bg="red.500" 
+            w="65%" 
+            justify="center" 
+            align="flex-start"
+            p="12"
             my="5"
             borderRadius="10"
             >
@@ -112,16 +116,6 @@ export default function Turma() {
 
         </Flex>
       </Flex>
-
-    <Flex as="footer"
-     position="fixed" bottom="0" 
-     left="30%"
-    >
-
-    <Text>
-      Copyright ©2021 All rights reserved  | This template is made with by Marcio Fernandes and Henrique Benício
-    </Text>
-    </Flex>
     </Flex>
   )
 }
