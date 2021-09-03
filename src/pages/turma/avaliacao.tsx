@@ -1,10 +1,12 @@
-import { Avatar, Box, Button, Checkbox, CheckboxGroup, Flex, HStack, Icon, Stack, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image'
-import { FiTrash } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { RadioGroup, Box, Button, Flex, Radio, Stack, Text, VStack } from '@chakra-ui/react';
 
 import { Header } from '../../components/Header';
+import ReportarQuestao from '../../components/Modal/reportar';
 
 export default function Turma() {
+    const [resposta, setResposta] = useState("");
+
     return (
         <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
             <Header />
@@ -31,6 +33,7 @@ export default function Turma() {
                             >
                                 1 de 15
                             </Box>
+                            
                             <Box maxWidth="80%"
                                 color="black" justify="flex-start"
                                 align="start">
@@ -45,29 +48,26 @@ export default function Turma() {
                                     Existe diferença na performance entre um componente de classes?
                                 </Text>
 
-                                <CheckboxGroup colorScheme="purple" >
-                                    <VStack
-                                        justify="flex-start"
-                                        align="flex-start"
-                                        spacing="8"
-                                    >
-                                        <Checkbox
-                                            value="a">Sim, a principal diferença está no babel que consegue
+                                <RadioGroup colorScheme="purple" onChange={setResposta} value={resposta}>
+                                    <Stack spacing="8">
+                                        <Radio value="1">
+                                            Sim, a principal diferença está no babel que consegue
                                             converter de forma mais eficaz o javascript de um componente de classe no lugar
                                             de um componente funcional.
-                                        </Checkbox>
-                                        <Checkbox value="b">Não, pois o babel renderiza igualmente todos os componentes de função
+                                        </Radio>
+                                        <Radio value="2">
+                                            Não, pois o babel renderiza igualmente todos os componentes de função
                                             e classe.
-                                        </Checkbox>
-                                        <Checkbox value="c"
-                                            isChecked
-                                        >Não, pois a única diferença em um componente funcional e de classe
+                                        </Radio>
+                                        <Radio value="3">
+                                            Não, pois a única diferença em um componente funcional e de classe
                                             no react é o fato do desenvolvimento ser mais simples utilizando componentes funcionais.
-                                        </Checkbox>
-                                        <Checkbox value="d">Nenhuma das alternativas</Checkbox>
-                                    </VStack>
-                                </CheckboxGroup>
-
+                                        </Radio>
+                                        <Radio value="4">
+                                            Nenhuma das alternativas
+                                        </Radio>
+                                    </Stack>
+                                </RadioGroup>
                             </Box>
 
                             <Stack direction="row" spacing={4}
@@ -75,9 +75,7 @@ export default function Turma() {
                                 w="80%"
                                 justify="space-between"
                             >
-                                <Button size="lg" colorScheme="red">
-                                    Reportar questão
-                                </Button>
+                                <ReportarQuestao />
                                 <Button size="lg" colorScheme="green">
                                     Próxima questão
                                 </Button>

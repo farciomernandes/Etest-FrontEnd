@@ -1,11 +1,29 @@
-import { Button, Flex, Icon, Stack, Text } from '@chakra-ui/react';
-import { Input } from '../../components/Form/input';
+import { Button, Flex, Icon, Stack, Text, HStack } from '@chakra-ui/react';
+import { useRadioGroup } from "@chakra-ui/radio"
+import Link from "next/link";
+
+
+import { Input } from '../components/Form/input';
 import Image from 'next/image'
 import { VscSignOut } from 'react-icons/vsc';
 
-import logoImg from '../../assets/images/logo.svg';
+import logoImg from '../assets/images/logo.svg';
+import RadioCard from '../components/RadioCard';
+
+import { NavLink } from '../components/NavLink';
+
 
 export default function Cadastro() {
+    const options = ["Professor", "Aluno"]
+
+    const { getRootProps, getRadioProps } = useRadioGroup({
+        name: "framework",
+        defaultValue: "react",
+        onChange: console.log,
+    })
+
+    const group = getRootProps();
+
     return (
         <Flex
             w="100vw"
@@ -40,12 +58,25 @@ export default function Cadastro() {
                             justify="center"
                             fontWeight="bold"
                         >
-                            Cadastre-se como professor
+                            Cadastre-se
                         </Text>
+
+                        <HStack {...group}>
+
+                            {options.map((value) => {
+                                const radio = getRadioProps({ value })
+                                return (
+                                    <RadioCard key={value} {...radio}>
+                                        {value}
+                                    </RadioCard>
+                                )
+                            })}
+                        </HStack>
+
                     </Stack>
                 </Flex>
 
-                <Stack spacing="4">
+                <Stack spacing="4" d="flex" align="center" justify="center">
 
                     <Input
                         name="nome"
@@ -57,25 +88,34 @@ export default function Cadastro() {
                         name="matricula"
                         type="text"
                         placeholder="Matrícula"
-                        
                     />
                     <Input
                         name="senha"
                         type="password"
-                        size="lg"
                         placeholder="Senha"
                     />
                 </Stack>
 
                 <Stack spacing="5">
-                    <Button type="submit" mt="6" size="lg" colorScheme="red"
-                        rightIcon={<Icon as={VscSignOut} fontSize="20" />}
 
-                    >Cadastrar</Button>
+
+                    <NavLink icon={VscSignOut} href="/dashboard"
+                        color="white"
+                        h="57" size="lg"
+                        colorScheme="red"
+                    >
+                        Cadastrar
+                    </NavLink>
 
                     <Flex justify="center" align="center" fontWeight="bold">
-                        <Text color="black">Não tem conta?</Text>
-                        <Text color="purple.800" ml="2">Cadastre-se</Text>
+
+                        <Flex justify="center" align="center" color="white">
+                            <Text color="black">Já tem conta?</Text>
+                            <Text fontWeight="bold" color="purple.800" ml="2">
+                                <Link href="/">Faça login</Link>
+                            </Text>
+                        </Flex>
+
                     </Flex>
                 </Stack>
 

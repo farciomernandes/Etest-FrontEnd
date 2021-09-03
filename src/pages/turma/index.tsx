@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Flex, HStack, Icon, Stack, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image'
 import { FiTrash } from 'react-icons/fi';
 
 import { Header } from '../../components/Header';
+import { NavLink } from '../../components/NavLink';
 
 export default function Turma() {
   return (
@@ -24,32 +24,36 @@ export default function Turma() {
             borderRadius="10"
             >
             <Box>
-            <VStack>
+            <VStack mb="8">
             <Text fontSize="3xl" fontWeight="bold">Prova de algoritmo</Text>
             <Text fontWeight="regular">Prazo: 21/09 ás 09:00</Text>
             </VStack>  
-            <Button colorScheme="green"
-            type="submit"size="lg" 
-            mt="8"
-            >Fazer prova</Button> 
+            <NavLink icon={null} href="/turma/avaliacao" 
+              bg="#38A169" color="white" type="submit" 
+              colorScheme="green"
+              size="lg"
+              >
+                Fazer prova
+              </NavLink>
             </Box>
 
             </Flex>
-            
-
             <Flex bg="white" w="65%" justify="center" align="flex-start" p="12"
             my="5" color="black"
             borderRadius="10"
             >
             <Box>
-            <VStack>
+            <VStack mb="8">
             <Text fontSize="3xl" fontWeight="bold">Prova de Javascript</Text>
             <Text fontWeight="regular">Prazo: 25/09 ás 09:00</Text>
             </VStack>  
-            <Button colorScheme="green"
-            type="submit"size="lg" 
-            mt="8"
-            >Definir lembrete</Button> 
+            <NavLink icon={null} href="/turma/avaliacao" 
+              bg="#38A169" color="white" type="submit" 
+              colorScheme="green"
+              size="lg"
+              >
+                Definir lembrete
+              </NavLink>
             </Box>
 
             </Flex>

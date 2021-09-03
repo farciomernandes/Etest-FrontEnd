@@ -5,6 +5,9 @@ import dashboardImg from '../assets/images/dashboardIMG.svg';
 import { Header } from '../components/Header';
 import TurmasModal from '../components/Modal/turmas';
 import EditarModal from '../components/Modal/editar';
+import { NavLink } from '../components/NavLink';
+import { RiDashboardLine } from 'react-icons/ri';
+
 
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -15,22 +18,23 @@ export default function Dashboard() {
 
       <Flex w="100%" my="6" justify="space-around" align="center">
         <Flex mr="auto" mt="20" flexDir="column" maxWidth={720}>
-          <Text
-            fontSize="7xl"
-          >
-            Bem vindo ao E-test,
-            <Text fontWeight="bold"> Marcio</Text>
-          </Text>
 
-          <Text mt="5" fontWeight="regular">
-            Entre nas suas turmas e veja todos os comentários feitos
-            pelos professores, confira já suas notas através do boletim,
-            veja suas avaliações respondidas
-          </Text>
+            <Text
+              fontSize="7xl"
+            >
+              Bem vindo ao E-test,
+              <Text fontWeight="bold"> Marcio</Text>
+            </Text>
 
-          <Text mt="5" fontWeight="bold">
-            Esse daksdasdnassdpoas dNEGRITO
-          </Text>
+            <Text mt="5" fontWeight="regular">
+              Entre nas suas turmas e veja todos os comentários feitos
+              pelos professores, confira já suas notas através do boletim,
+              veja suas avaliações respondidas
+            </Text>
+
+            <Text mt="5" fontWeight="bold">
+              Esse daksdasdnassdpoas dNEGRITO
+            </Text>
 
 
           <Flex
@@ -41,17 +45,24 @@ export default function Dashboard() {
 
             <VStack spacing="8">
               <TurmasModal />
-
-              <Button w={350} type="submit" h="57" size="lg" bg="white.900" color="purple.800"
-              >Minhas avaliações</Button>
+              <NavLink icon={null} href="/" 
+              bg="#38A169" color="white" type="submit" 
+              h="57" size="lg" w={350} 
+              colorScheme="green"
+              >
+                Minhas avaliações
+              </NavLink>
             </VStack>
 
 
             <VStack spacing="8">
-              <Button w={350} type="submit" h="57" size="lg" colorScheme="green"
+              <NavLink icon={null} href="/aluno/boletim" 
+              bg="#38A169" color="white" type="submit" 
+              h="57" size="lg" w={350} 
+              colorScheme="green"
               >
                 Meu Boletim
-              </Button>
+              </NavLink>
 
               <EditarModal />
             </VStack>
@@ -65,7 +76,7 @@ export default function Dashboard() {
             right="0"
             top="20"
           >
-            <Image src={dashboardImg} width={900} height={900} />
+            {/**<Image src={dashboardImg} width={900} height={900} /> */}
           </Box>
 
         </Flex>

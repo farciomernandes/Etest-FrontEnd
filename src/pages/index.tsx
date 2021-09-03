@@ -1,14 +1,17 @@
-import { Button, Flex, Stack, Text, Divider, Box, Icon } from '@chakra-ui/react';
+import {  Flex, Stack, Text, Divider, Box } from '@chakra-ui/react';
+import Link from "next/link";
+
 import Image from 'next/image'
 
 import logoImg from '../assets/images/logo2.svg';
 
 import { VscSignOut } from 'react-icons/vsc';
+import { NavLink } from '../components/NavLink';
 
 
 export default function Home() {
   return (
-    
+
     <Flex
       w="100vw"
       h="100vh"
@@ -62,15 +65,19 @@ export default function Home() {
               />
             </Box>
 
-            <Button type="submit" h="57" size="lg" bg="white.900" color="purple.800"
-              leftIcon={<Icon as={VscSignOut} fontSize="20" />}
-            >
+            <NavLink icon={VscSignOut} href="/aluno"
+              bg="white.900" color="purple.800"
+              h="57" size="lg" >
               Entrar como aluno
-            </Button>
+            </NavLink>
 
-            <Button type="submit" h="57" size="lg" colorScheme="green"
-              leftIcon={<Icon as={VscSignOut} fontSize="20" />}
-            >Entrar como professor</Button>
+            <NavLink icon={VscSignOut} href="/professor"
+              color="white"
+              h="57" size="lg"
+              colorScheme="green"
+            >
+              Entrar como professor
+            </NavLink>
 
             <Flex w="100%" justify="center" align="center">
               <Divider />
@@ -80,13 +87,19 @@ export default function Home() {
             </Flex>
 
             <Stack>
-              <Button type="submit" h="57" size="lg" colorScheme="red"
-                rightIcon={<Icon as={VscSignOut} fontSize="20" />}
-              >Cadastre-se</Button>
+              <NavLink icon={VscSignOut} href="/cadastro"
+                color="white"
+                h="57" size="lg"
+                colorScheme="red"
+              >
+                Cadastre-se
+              </NavLink>
 
               <Flex justify="center" align="center" color="white">
-                <Text>Entre como</Text>
-                <Text ml="2" fontWeight="bold">Desenvolvedor</Text>
+                <Text mr="2">Entre como</Text>
+                <Text fontWeight="bold">
+                  <Link href="cadastro">Desenvolvedor</Link>
+                </Text>
               </Flex>
             </Stack>
 
@@ -95,6 +108,6 @@ export default function Home() {
 
       </Flex>
     </Flex>
-  
+
   )
 }
