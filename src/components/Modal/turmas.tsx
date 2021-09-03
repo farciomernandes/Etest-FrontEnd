@@ -1,7 +1,7 @@
 import { Button, Divider, Flex, HStack, Icon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { VscSignOut } from "react-icons/vsc";
 
-
+import Link from 'next/link';
 
 
 export default function TurmasModal() {
@@ -10,7 +10,7 @@ export default function TurmasModal() {
 
     return (
         <>
-            <Button w={350} type="button"
+            <Button w="100%" type="button"
                 h="57"
                 onClick={onOpen}
                 size="lg" bg="white.900"
@@ -46,13 +46,13 @@ export default function TurmasModal() {
                                             p="3"
                                             h="12"
                                             align="center"
-                                            w={250}
+                                            w="sm"
                                             borderRadius="8"
                                         >
                                             Javascript
                                         </Text>
                                         <Button type="submit" size="lg" colorScheme="green" p="4">
-                                            <Icon as={VscSignOut} fontSize="20" />
+                                            <Link href="/turma"><Icon color="white" as={VscSignOut} fontSize="20" /></Link>
                                         </Button>
                                     </HStack>
                                     <Divider mt="2" />
@@ -70,13 +70,13 @@ export default function TurmasModal() {
                                             p="3"
                                             h="12"
                                             align="center"
-                                            w={250}
+                                            w="sm"
                                             borderRadius="8"
                                         >
-                                            Javascript
+                                            Spring Boot
                                         </Text>
                                         <Button type="submit" size="lg" colorScheme="green" p="4">
-                                            <Icon as={VscSignOut} fontSize="20" />
+                                            <Link href="/turma"><Icon color="white" as={VscSignOut} fontSize="20" /></Link>
                                         </Button>
                                     </HStack>
                                     <Divider mt="2" />
@@ -94,13 +94,13 @@ export default function TurmasModal() {
                                             p="3"
                                             h="12"
                                             align="center"
-                                            w={250}
+                                            w="sm"
                                             borderRadius="8"
                                         >
-                                            Javascript
+                                            Programação Orientada a Objetos
                                         </Text>
                                         <Button type="submit" size="lg" colorScheme="green" p="4">
-                                            <Icon as={VscSignOut} fontSize="20" />
+                                            <Link href="/turma"><Icon color="white" as={VscSignOut} fontSize="20" /></Link>
                                         </Button>
                                     </HStack>
                                     <Divider mt="2" />
@@ -110,11 +110,11 @@ export default function TurmasModal() {
                         </ModalBody>
 
                         <ModalFooter justify="center" align="center">
-                            <Button 
-                            colorScheme="red"
-                            size="lg"
-                            w={150}
-                            onClick={onClose}>
+                            <Button
+                                colorScheme="red"
+                                size="lg"
+                                w={150}
+                                onClick={onClose}>
                                 Fechar
                             </Button>
                         </ModalFooter>
