@@ -21,9 +21,10 @@ export default function TurmasModal() {
 
     const { data, isLoading, error } = useQuery('turmas', async () => {
         const response = await api.get('/turmas');
-        console.log("DEU ISSO: ", response.data);
         return response.data;
     });
+
+    console.log('SACA NA TURMA: ', data);
 
 
     return (

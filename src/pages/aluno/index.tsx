@@ -1,24 +1,73 @@
-import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';
+import Head from "next/head";
+
 import { Input } from '../../components/Form/input';
 import Image from 'next/image'
 import Link from 'next/link';
 
-import logoImg from '../../assets/images/logo.svg';
-import { NavLink } from '../../components/NavLink';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useMutation } from 'react-query';
 
-export default function Home() {
+import logoImg from '../../assets/images/logo.svg';
+import { queryClient } from '../../services/queryCliente';
+import { api } from '../../services/api';
+import { useRouter } from 'next/dist/client/router';
+
+export default function Login() {
+
+  const router = useRouter();
+
+  type LoginUser = {
+    matricula: string;
+    senha: string;
+  };
+
+  const loginAlunoFormSchema = yup.object().shape({
+    matricula: yup.string().required('Matrícula obrigatória'),
+    senha: yup.string().required('Senha obrigatória').min(6, 'No mínimo 6 caracteres'),
+  });
+
+
+  const loginUser = useMutation(async (form: LoginUser) => {
+    if (form.matricula === '40028922' && form.senha === '123456') {
+      const response = await api.post('/auth', form);
+      localStorage.setItem("@Etest:user", JSON.stringify(response.data));
+      router.push('/dashboard')
+    } else {
+      alert('Matricula ou senha incorreta')
+    }
+
+  });
+
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(loginAlunoFormSchema)
+  })
+
+  const handleLoginUser: SubmitHandler<LoginUser> = async (values) => {
+    await loginUser.mutateAsync(values)
+
+    //router.push('/dashboard')
+  }
+
   return (
     <Flex
       w="100vw"
       h="100vh"
       align="center"
       justify="center">
-      <Flex as="form" w="100%" maxWidth={520}
+      <Head>
+        <title>Login aluno | E-test</title>
+      </Head>
+
+      <Box as="form" w="100%" maxWidth={520}
         bg="white.900"
         p="50"
         py="100"
         borderRadius={15}
         flexDirection="column"
+        onSubmit={handleSubmit(handleLoginUser)}
       >
         <Flex
           flexDirection="column"
@@ -48,25 +97,29 @@ export default function Home() {
         <Stack spacing="4">
 
           <Input
-            name="matricula"
             type="text"
             placeholder="Matrícula"
+            name="matricula"
+            error={formState.errors.name}
+            {...register("matricula")}
           />
           <Input
             name="senha"
-            type="password"
+            error={formState.errors.name}
+            {...register("senha")} type="password"
             placeholder="Senha"
           />
         </Stack>
 
         <Stack spacing="5" mt="8">
-          <NavLink icon={null} href="/dashboard"
+          <Button icon={null} href="/aluno"
             color="white"
             h="47" size="lg"
             colorScheme="red"
+            type="submit"
           >
             Entrar
-          </NavLink>
+          </Button>
           <Flex justify="center" align="center" fontWeight="bold">
             <Flex justify="center" align="center" color="white">
               <Text color="black">Não tem conta?</Text>
@@ -77,7 +130,7 @@ export default function Home() {
           </Flex>
         </Stack>
 
-      </Flex>
+      </Box>
     </Flex>
   )
 }

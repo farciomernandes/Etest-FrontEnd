@@ -6,12 +6,13 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 import Footer from '../components/Footer';
 import { makeServer } from '../services/mirage';
+import { queryClient } from '../services/queryCliente';
 
 if(process.env.NODE_ENV === 'development') {
   makeServer();
 }
 
-const queryClient = new QueryClient(); 
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

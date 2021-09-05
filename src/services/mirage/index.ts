@@ -74,7 +74,8 @@ export function makeServer() {
                     tipo: "Bearer",
                     nome: "Marcio Fernandes",
                     id: 1,
-                    matricula: '40028922'
+                    matricula: '40028922',
+                    senha: '123456'
             }
             });
 
