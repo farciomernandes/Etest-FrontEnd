@@ -1,7 +1,5 @@
-import { Box, Spinner, Divider, Flex, HStack, Icon, localStorageManager, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Spinner, Flex, Text, VStack } from '@chakra-ui/react';
 import Image from 'next/image'
-
-import { useState } from 'react';
 
 import dashboardImg from '../assets/images/dashboardIMG.svg';
 import { Header } from '../components/Header';
@@ -10,7 +8,7 @@ import EditarModal from '../components/Modal/editar';
 import { NavLink } from '../components/NavLink';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 
 
 export default function Dashboard({ user }) {
@@ -109,23 +107,9 @@ export default function Dashboard({ user }) {
 }
 
 
-export const getStaticProps: GetStaticProps = async () => {
-  /*let user = await api.post('/auth', {
-    matricula: '400289222',
-    senha: 123456
-  });
+export const getServerSideProps: GetServerSideProps = async () => {
+  //Estado global para buscar e salvar as informações do usuario logado
 
- /**
-  *  if (!user) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      }
-    }
-  }
-
-  */
   return {
     props: {
       user: {

@@ -56,7 +56,7 @@ export function makeServer() {
         },
 
         seeds(server) {
-            server.createList('turma', 7);
+            server.createList('turma', 4);
             server.createList('user', 1);
         },
 

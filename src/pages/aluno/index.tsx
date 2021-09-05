@@ -11,8 +11,9 @@ import * as yup from 'yup';
 import { useMutation } from 'react-query';
 
 import logoImg from '../../assets/images/logo.svg';
-import { queryClient } from '../../services/queryCliente';
 import { api } from '../../services/api';
+
+
 import { useRouter } from 'next/dist/client/router';
 
 export default function Login() {
@@ -31,14 +32,15 @@ export default function Login() {
 
 
   const loginUser = useMutation(async (form: LoginUser) => {
-    if (form.matricula === '40028922' && form.senha === '123456') {
-      const response = await api.post('/auth', form);
-      localStorage.setItem("@Etest:user", JSON.stringify(response.data));
-      router.push('/dashboard')
-    } else {
-      alert('Matricula ou senha incorreta')
-    }
-
+      
+      const { data } = await api.post('/auth', form);
+      if(!data){
+        alert('Matricula ou senha incorreta !');
+      }else{
+        localStorage.setItem('@Etest:user',  JSON.stringify(data));
+        router.push('/dashboard')
+      }
+   
   });
 
   const { register, handleSubmit, formState } = useForm({
@@ -47,8 +49,6 @@ export default function Login() {
 
   const handleLoginUser: SubmitHandler<LoginUser> = async (values) => {
     await loginUser.mutateAsync(values)
-
-    //router.push('/dashboard')
   }
 
   return (
