@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Table, TableCaption, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
+import Head from "next/head";
 
 
 export default function Boletim() {
@@ -11,6 +12,9 @@ export default function Boletim() {
             align="center"
             justify="center"
         >
+            <Head>
+                <title>Boletim | E-test</title>
+            </Head>
             <Flex w="100%"
                 justify="center"
                 align="flex-start"

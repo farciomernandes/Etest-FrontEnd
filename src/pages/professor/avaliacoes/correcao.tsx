@@ -3,11 +3,16 @@ import { FiTrash } from 'react-icons/fi';
 
 import { Header } from '../../../components/Header';
 import { NavLink } from '../../../components/NavLink';
+import Head from "next/head";
+
 
 export default function CorrigirAvaliacaoes() {
     return (
         <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
             <Header />
+            <Head>
+                <title>Correção | E-test</title>
+            </Head>
 
             <Flex w="100%" justify="space-around" align="baseline" mt="20">
                 <Flex flexDir="column">

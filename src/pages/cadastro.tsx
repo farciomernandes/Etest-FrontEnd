@@ -1,6 +1,7 @@
 import { Button, Flex, Icon, Stack, Text, HStack } from '@chakra-ui/react';
 import { useRadioGroup } from "@chakra-ui/radio"
 import Link from "next/link";
+import Head from "next/head";
 
 
 import { Input } from '../components/Form/input';
@@ -30,6 +31,9 @@ export default function Cadastro() {
             h="100vh"
             align="center"
             justify="center">
+            <Head>
+                <title>Cadastro | E-test</title>
+            </Head>
             <Flex as="form" w="100%" maxWidth={520}
                 bg="white.900"
                 p="50"

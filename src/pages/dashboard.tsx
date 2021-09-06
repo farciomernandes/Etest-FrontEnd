@@ -9,6 +9,8 @@ import { NavLink } from '../components/NavLink';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 import { GetServerSideProps } from 'next';
+import Head from "next/head";
+
 
 
 export default function Dashboard({ user }) {
@@ -24,6 +26,9 @@ export default function Dashboard({ user }) {
 
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
+      <Head>
+        <title>Dashboard | E-test</title>
+      </Head>
       <Header />
 
       <Flex w="100%" my="6" justify="space-around" align="center">

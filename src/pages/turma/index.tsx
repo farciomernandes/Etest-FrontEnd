@@ -1,5 +1,7 @@
 import { Avatar, Box, Button, Flex, HStack, Icon, Stack, Text, VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
+import Head from "next/head";
+
 import { FiTrash } from 'react-icons/fi';
 
 import { Header } from '../../components/Header';
@@ -8,7 +10,11 @@ import { NavLink } from '../../components/NavLink';
 export default function Turma({ turma }) {
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
+      <Head>
+        <title>Turma | E-test</title>
+      </Head>
       <Header />
+      
 
       <Flex w="100%" my="6" justify="space-around" align="baseline" mt="2">
         <Flex mt="20" flexDir="column" maxWidth="30vw">

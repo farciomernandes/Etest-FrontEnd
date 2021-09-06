@@ -10,7 +10,7 @@ export default function Footer() {
         >
 
             <Text>
-                Copyright ©2021 All rights reserved  | This template is made with by Marcio Fernandes and Henrique Benício
+                Copyright ©2021 All rights reserved  | This template is made with by Marcio Fernandes and Inathan Moreira
             </Text>
         </Flex>
     );

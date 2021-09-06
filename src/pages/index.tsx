@@ -1,5 +1,7 @@
 import {  Flex, Stack, Text, Divider, Box } from '@chakra-ui/react';
 import Link from "next/link";
+import Head from "next/head";
+
 
 import Image from 'next/image'
 
@@ -18,6 +20,9 @@ export default function Home() {
       align="center"
       justify="center"
     >
+      <Head>
+                <title>Home | E-test</title>
+            </Head>
       <Flex w="100%"
         align="center"
         justify="space-around"

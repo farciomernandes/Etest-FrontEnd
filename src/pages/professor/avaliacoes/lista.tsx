@@ -3,10 +3,16 @@ import { Avatar, Flex, Text, VStack, Stack } from '@chakra-ui/react';
 import { Header } from '../../../components/Header';
 import { NavLink } from '../../../components/NavLink';
 
+import Head from "next/head";
+
+
 export default function ListarAvaliacaoes() {
     return (
         <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
             <Header />
+            <Head>
+                <title>Enviadas | E-test</title>
+            </Head>
 
             <Flex w="100%" justify="space-around" align="baseline" mt="20">
                 <Flex flexDir="column">
