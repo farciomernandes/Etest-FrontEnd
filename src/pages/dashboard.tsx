@@ -1,6 +1,9 @@
 import { Box, Spinner, Flex, Text, VStack } from '@chakra-ui/react';
 import Image from 'next/image'
 
+import { connect } from 'react-redux';
+
+
 import dashboardImg from '../assets/images/dashboardIMG.svg';
 import { Header } from '../components/Header';
 import TurmasModal from '../components/Modal/turmas';
@@ -13,7 +16,7 @@ import Head from "next/head";
 
 
 
-export default function Dashboard({ user }) {
+function Dashboard({ user }) {
 
   const { data, isLoading, error } = useQuery('turmas', async () => {
     const response = await api.get('/turmas');
@@ -21,8 +24,6 @@ export default function Dashboard({ user }) {
 
     return data;
   });
-
-
 
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
@@ -112,9 +113,16 @@ export default function Dashboard({ user }) {
 }
 
 
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+})
+
+
+export default connect(mapStateToProps)(Dashboard);
+
+/*
 export const getServerSideProps: GetServerSideProps = async () => {
   //Estado global para buscar e salvar as informações do usuario logado
-
   return {
     props: {
       user: {
@@ -128,3 +136,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }
   }
 }
+ */

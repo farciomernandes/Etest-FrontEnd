@@ -1,4 +1,4 @@
-import { ActiveModelSerializer, createServer, Factory, Model } from 'miragejs';
+import { ActiveModelSerializer, createServer, Factory, Model, Response } from 'miragejs';
 import faker from 'faker';
 
 type Turma = {
@@ -69,6 +69,13 @@ export function makeServer() {
             this.post('/turmas');
 
             this.post("/auth", function (schema, request) {
+                const body = JSON.parse(request.requestBody);
+
+                if(body.matricula != 40028922){
+                    return new Response(404, { some: 'header' }, { errors: [ 'Matricula incorreta!'] });
+                }
+
+
                 return {
                     token: "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIE1hcmNpbyBTcHJpbmciLCJzdWIiOiIxIiwiaWF0IjoxNjMwNjk1NDc1LCJleHAiOjE2MzA3ODE4NzV9.oOA1rhRvj0Ivi0GsQ-AZuUxhxPZHTeKKxLaIyEW_Cpk",
                     tipo: "Bearer",

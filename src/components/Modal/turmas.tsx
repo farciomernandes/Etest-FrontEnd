@@ -4,9 +4,11 @@ import {
 } from "@chakra-ui/react";
 import { VscSignOut } from "react-icons/vsc";
 
+
 import Link from 'next/link';
 import { useQuery } from "react-query";
 import { api } from "../../services/api";
+
 type Turma = {
     id: number;
     nome: string;
@@ -24,7 +26,6 @@ export default function TurmasModal() {
         return response.data;
     });
 
-    console.log('SACA NA TURMA: ', data);
 
 
     return (

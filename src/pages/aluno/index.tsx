@@ -13,10 +13,13 @@ import { useMutation } from 'react-query';
 import logoImg from '../../assets/images/logo.svg';
 import { api } from '../../services/api';
 
+import { connect } from 'react-redux';
+
+
 
 import { useRouter } from 'next/dist/client/router';
 
-export default function Login() {
+function Login(props) {
 
   const router = useRouter();
 
@@ -32,15 +35,27 @@ export default function Login() {
 
 
   const loginUser = useMutation(async (form: LoginUser) => {
-      
-      const { data } = await api.post('/auth', form);
-      if(!data){
-        alert('Matricula ou senha incorreta !');
-      }else{
+      const { dispatch } = props;
+      let response;
+      try {
+        response = await api.post('/auth', form);
+        const { data } = response;
         localStorage.setItem('@Etest:user',  JSON.stringify(data));
+
+        dispatch({
+            type: 'SIGN_IN_SUCCESS',
+            payload: data
+        });
+
         router.push('/dashboard')
+
+      } catch (error) {
+        dispatch({
+          type: 'SIGN_IN_FAILURE',
+          payload: error.message  
+      });
+      alert(error.message);
       }
-   
   });
 
   const { register, handleSubmit, formState } = useForm({
@@ -134,3 +149,5 @@ export default function Login() {
     </Flex>
   )
 }
+
+export default connect()(Login);
