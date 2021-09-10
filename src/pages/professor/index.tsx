@@ -1,25 +1,87 @@
-import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';
+import Head from "next/head";
+
 import { Input } from '../../components/Form/input';
-import Image from 'next/image';
+import Image from 'next/image'
 import Link from 'next/link';
 
-import logoImg from '../../assets/images/logo.svg';
-import { VscSignOut } from 'react-icons/vsc';
-import { NavLink } from '../../components/NavLink';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useMutation } from 'react-query';
 
-export default function Home() {
+import logoImg from '../../assets/images/logo.svg';
+import { api } from '../../services/api';
+
+import { connect } from 'react-redux';
+
+
+import { useRouter } from 'next/dist/client/router';
+
+function Login(props) {
+
+  const router = useRouter();
+
+  type LoginUser = {
+    matricula: string;
+    senha: string;
+  };
+
+  const loginProfessorFormSchema = yup.object().shape({
+    matricula: yup.string().required('Matrícula obrigatória'),
+    senha: yup.string().required('Senha obrigatória').min(6, 'No mínimo 6 caracteres'),
+  });
+
+
+  const loginUser = useMutation(async (form: LoginUser) => {
+      const { dispatch } = props;
+      let response;
+      try {
+        response = await api.post('/auth', form);
+        const { data } = response;
+        localStorage.setItem('@Etest:user',  JSON.stringify(data));
+
+        dispatch({
+            type: 'SIGN_IN_SUCCESS',
+            payload: data
+        });
+
+        router.push('/dashboard')
+
+      } catch (error) {
+        dispatch({
+          type: 'SIGN_IN_FAILURE',
+          payload: error.message  
+      });
+      alert(error.message);
+      }
+  });
+
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(loginProfessorFormSchema)
+  })
+
+  const handleLoginUser: SubmitHandler<LoginUser> = async (values) => {
+    await loginUser.mutateAsync(values)
+  }
+
   return (
     <Flex
       w="100vw"
       h="100vh"
       align="center"
       justify="center">
-      <Flex as="form" w="100%" maxWidth={520}
+      <Head>
+        <title>Login Professor | E-test</title>
+      </Head>
+
+      <Box as="form" w="100%" maxWidth={520}
         bg="white.900"
         p="50"
         py="100"
         borderRadius={15}
         flexDirection="column"
+        onSubmit={handleSubmit(handleLoginUser)}
       >
         <Flex
           flexDirection="column"
@@ -41,7 +103,7 @@ export default function Home() {
               align="center"
               justify="center"
             >
-              Entrar como professor
+              Entrar como Professor
             </Text>
           </Stack>
         </Flex>
@@ -49,28 +111,31 @@ export default function Home() {
         <Stack spacing="4">
 
           <Input
-            name="matricula"
             type="text"
             placeholder="Matrícula"
+            name="matricula"
+            error={formState.errors.name}
+            {...register("matricula")}
           />
           <Input
             name="senha"
-            type="password"
+            error={formState.errors.name}
+            {...register("senha")} type="password"
             placeholder="Senha"
           />
         </Stack>
 
         <Stack spacing="5" mt="8">
-          <NavLink icon={null} href="/dashboard"
+          <Button icon={null} href="/professor"
             color="white"
             h="47" size="lg"
             colorScheme="red"
+            type="submit"
           >
             Entrar
-          </NavLink>
-
+          </Button>
           <Flex justify="center" align="center" fontWeight="bold">
-          <Flex justify="center" align="center" color="white">
+            <Flex justify="center" align="center" color="white">
               <Text color="black">Não tem conta?</Text>
               <Text fontWeight="bold" color="purple.800" ml="2">
                 <Link href="/cadastro">Cadastre-se</Link>
@@ -79,7 +144,9 @@ export default function Home() {
           </Flex>
         </Stack>
 
-      </Flex>
+      </Box>
     </Flex>
   )
 }
+
+export default connect()(Login);

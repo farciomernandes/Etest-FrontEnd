@@ -1,9 +1,10 @@
 import { Avatar, Box, Button, Divider, Flex, HStack, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { RiLockPasswordLine } from 'react-icons/ri';
 
-const EditarSenha: React.FC = () => {
+const EditarSenha = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const { user } = props;
 
     return (
         <>

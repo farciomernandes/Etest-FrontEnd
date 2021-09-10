@@ -11,7 +11,6 @@ import EditarModal from '../components/Modal/editar';
 import { NavLink } from '../components/NavLink';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
-import { GetServerSideProps } from 'next';
 import Head from "next/head";
 
 
@@ -91,7 +90,7 @@ function Dashboard({ user }) {
                 Meu Boletim
               </NavLink>
 
-              <EditarModal />
+              <EditarModal user={user} />
             </VStack>
 
           </Flex>
