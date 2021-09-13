@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 import rootReducer from './root-reducer'
 
 const persisConfig = {
-    key: "root",
+    key: "@Etest",
     storage,
 }
 

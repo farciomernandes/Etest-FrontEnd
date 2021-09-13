@@ -5,9 +5,9 @@ import {
 import { VscSignOut } from "react-icons/vsc";
 
 
-import Link from 'next/link';
-import { useQuery } from "react-query";
+import { useRouter } from 'next/dist/client/router';
 import { api } from "../../services/api";
+import { connect } from "react-redux";
 
 type Turma = {
     id: number;
@@ -18,16 +18,35 @@ type Turma = {
     avaliacoes: string[];
 }
 
-export default function TurmasModal( { turmas }) {
+function TurmasModal( { turmas, user, dispatch }) {
+
+    const router = useRouter();
+
+
+    async function searchTurma(id){
+
+        try {
+            const response = await api.get(`/turma/${id}`, { headers: {
+                Authorization: `Bearer ${user.token}`
+              }});
+        
+              console.log('DEU ISSO: ', response);
+              dispatch({
+                type: 'SEARCH_SUCCESS',
+                payload: response.data
+            });
+            router.push(`turma/${id}`)
+        } catch (error) {
+            dispatch({
+                type: 'SEARCH_FAILURE',
+                payload: error
+            });
+            alert("Erro ao buscar turma, tente novamente!")
+        }
+      }
+
+
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const { data, isLoading, error } = useQuery('turmas', async () => {
-        const response = await api.get('/turmas');
-        return response.data;
-    });
-
-
-
 
     return (
         <>
@@ -73,8 +92,8 @@ export default function TurmasModal( { turmas }) {
                                             >
                                                 {turma.nome}
                                             </Text>
-                                            <Button type="submit" size="lg" colorScheme="green" p="4">
-                                                <Link href="/turma"><Icon color="white" as={VscSignOut} fontSize="20" /></Link>
+                                            <Button type="submit" size="lg" colorScheme="green" p="4" onClick={()=> searchTurma(turma.id)}>
+                                            <Icon color="white" as={VscSignOut} fontSize="20" />
                                             </Button>
                                         </HStack>
                                         <Divider mt="2" />
@@ -100,3 +119,9 @@ export default function TurmasModal( { turmas }) {
 
     );
 }
+
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+  })
+  
+export default connect(mapStateToProps)(TurmasModal);

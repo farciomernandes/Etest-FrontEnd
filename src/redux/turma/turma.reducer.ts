@@ -1,4 +1,4 @@
-import UserActionTypes from './user.types';
+import TurmaActionTypes from './turma.types';
 
 const INITIAL_STATE = {
   user: null,
@@ -7,14 +7,13 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UserActionTypes.SIGN_IN_SUCCESS:
+    case TurmaActionTypes.SEARCH_SUCCESS:
       return {
         ...state,
-        user: action.payload,
+        turma: action.payload,
         error: null
       };
-    case UserActionTypes.SIGN_IN_FAILURE:
-    case UserActionTypes.SIGN_UP_FAILURE:
+    case TurmaActionTypes.SEARCH_FAILURE:
       return {
         ...state,
         error: action.payload
