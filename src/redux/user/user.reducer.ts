@@ -1,20 +1,12 @@
 import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
-  user: {
-    token: "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIE1hcmNpbyBTcHJpbmciLCJzdWIiOiIxIiwiaWF0IjoxNjMwNjk1NDc1LCJleHAiOjE2MzA3ODE4NzV9.oOA1rhRvj0Ivi0GsQ-AZuUxhxPZHTeKKxLaIyEW_Cpk",
-    tipo: "Bearer",
-    nome: "Inathan Moreira",
-    id: 1,
-    matricula: '40028922',
-    senha: '123456',
-    email: 'inathan@gmail.com'
-  },
+  user: null,
   error: null
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
-  console.log(action);
+  console.log("SACA SO NO REDUCER: ", action.payload);
   switch (action.type) {
     case UserActionTypes.SIGN_IN_SUCCESS:
       return {

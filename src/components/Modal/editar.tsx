@@ -17,9 +17,6 @@ const EditarModal = (props) => {
 
     const { user } = props;
 
-    console.log('DEU ISSO: ', user);
-
-
     return (
         <>
             <Button w={350}

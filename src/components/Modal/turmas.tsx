@@ -18,7 +18,7 @@ type Turma = {
     avaliacoes: string[];
 }
 
-export default function TurmasModal() {
+export default function TurmasModal( { turmas }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const { data, isLoading, error } = useQuery('turmas', async () => {
@@ -28,17 +28,9 @@ export default function TurmasModal() {
 
 
 
+
     return (
         <>
-            {isLoading ? (
-                <Flex align="center">
-                    <Spinner />
-                </Flex>
-            ) : error ? (
-                <Flex align="center">
-                    <Text>Falha ao carregar turmas</Text>
-                </Flex>
-            ) : (
                 <Button w="100%" type="button"
                     h="57"
                     onClick={onOpen}
@@ -47,9 +39,7 @@ export default function TurmasModal() {
                 >
                     Minhas turmas
                 </Button>
-            )}
-
-
+           
             <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
                 <ModalOverlay />
                 <ModalContent bg="purple.500" maxWidth={720} mt="20vh"
@@ -64,7 +54,7 @@ export default function TurmasModal() {
 
                         <ModalBody>
                             <VStack spacing="4">
-                            {data.turmas.map((turma: Turma) => (
+                            {turmas.map((turma: Turma) => (
                                     <Flex
                                         justify="center" align="center"
                                         flexDir="column"

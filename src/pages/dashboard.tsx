@@ -38,7 +38,7 @@ function Dashboard({ user }) {
             fontSize="7xl"
           >
             Bem vindo ao E-test,
-            <Text fontWeight="bold">{user.nome}</Text>
+            <Text fontWeight="bold">{user.usuario.nome}</Text>
           </Text>
 
           <Text mt="5" fontWeight="regular">
@@ -59,17 +59,8 @@ function Dashboard({ user }) {
           >
 
             <VStack spacing="8">
-              {isLoading ? (
-                <Flex align="center">
-                  <Spinner />
-                </Flex>
-              ) : error ? (
-                <Flex align="center">
-                  <Text>Falha ao carregar turmas</Text>
-                </Flex>
-              ) : (
-                <TurmasModal />
-              )}
+             
+                <TurmasModal turmas={user.usuario.turmas}/>
 
               <NavLink icon={null} href="/"
                 bg="#38A169" color="white" type="submit"

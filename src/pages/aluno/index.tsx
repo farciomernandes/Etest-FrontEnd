@@ -38,15 +38,16 @@ function Login(props) {
       const { dispatch } = props;
       let response;
       try {
-        response = await api.post('/auth', form);
+        response = await api.post('/autenticacao', form);
         const { data } = response;
-        localStorage.setItem('@Etest:user',  JSON.stringify(data));
 
         dispatch({
-            type: 'SIGN_IN_SUCCESS',
-            payload: data
-        });
+          type: 'SIGN_IN_SUCCESS',
+          payload: data
+      });
 
+        localStorage.setItem('@Etest:user',  JSON.stringify(data));
+      
         router.push('/dashboard')
 
       } catch (error) {
@@ -54,7 +55,7 @@ function Login(props) {
           type: 'SIGN_IN_FAILURE',
           payload: error.message  
       });
-      alert(error.message);
+      alert("Erro ao realizar login, tente novamente!");
       }
   });
 

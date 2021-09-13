@@ -1,20 +1,16 @@
 import { createStore } from 'redux';
 
+import {persistStore, persistReducer} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import rootReducer from './root-reducer'
-import logger from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
 
-//const sagaMiddlewares = createSagaMiddleware();
+const persisConfig = {
+    key: "root",
+    storage,
+}
 
-//const middlewares = [sagaMiddlewares];
+const persisReducer = persistReducer(persisConfig, rootReducer);
 
-/*if (process.env.NODE_ENV === 'development') {
-    middlewares.push(logger);
-}*/
+export const store = createStore(persisReducer); //Enviar apenas um reducer
 
-const store = createStore(rootReducer); //Enviar apenas um reducer
-//com a informação que deve ficar na store
-
-//sagaMiddlewares.run();
-
-export default store;
+export const persistor = persistStore(store);

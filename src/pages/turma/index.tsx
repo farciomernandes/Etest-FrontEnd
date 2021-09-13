@@ -77,7 +77,7 @@ export default function Turma({ turma }) {
           <VStack>
 
             {turma.comentarios.map(comentario => (
-              <Box bg="white" p="8" borderRadius="10" w="50vw" >
+              <Box bg="white" p="8" borderRadius="10" w="50vw" key={comentario.id} >
                 <Text color="black">
                   {comentario}
                 </Text>
