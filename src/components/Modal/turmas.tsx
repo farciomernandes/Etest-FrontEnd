@@ -30,7 +30,6 @@ function TurmasModal( { turmas, user, dispatch }) {
                 Authorization: `Bearer ${user.token}`
               }});
         
-              console.log('DEU ISSO: ', response);
               dispatch({
                 type: 'SEARCH_SUCCESS',
                 payload: response.data

@@ -12,7 +12,7 @@ import { QueryClientProvider } from 'react-query';
 import Footer from '../components/Footer';
 import { queryClient } from '../services/queryCliente';
 
-import { store, persistor } from '../redux/store';
+import { store, persistor } from '../store/store';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,8 +22,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
     <PersistGate persistor={persistor}>
       <Component {...pageProps} />
-    </PersistGate>
       <Footer />
+    </PersistGate>
     </ChakraProvider>
     </QueryClientProvider>
     </Provider>

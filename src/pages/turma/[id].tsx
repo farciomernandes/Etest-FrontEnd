@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import Head from "next/head";
 
 import { FiTrash } from 'react-icons/fi';
+import { RiAddCircleLine } from 'react-icons/ri';
 
 import { useQuery } from 'react-query';
 import { connect } from 'react-redux';
@@ -11,10 +12,9 @@ import { useRouter } from 'next/router'
 import { Header } from '../../components/Header';
 import { NavLink } from '../../components/NavLink';
 import { api } from '../../services/api';
+import AdicionarComentario from '../../components/Modal/Form/comentario';
 
 function Turma({ turma }) {
-  console.log('CHEGOU AQUI: ', turma);
-
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
       <Head>
@@ -29,34 +29,62 @@ function Turma({ turma }) {
           <Flex flexDir="column" justify="center" align="flex-start">
             <Text fontSize="4xl">Novos:</Text>
 
-          {turma.avaliacoes.map(avaliacao=>
           {
-              return (
-                <Flex bg="red.500" key={avaliacao.id}
-                w="65%"
-                justify="center"
-                align="flex-start"
-                p="12"
-                my="5"
-                borderRadius="10"
-                >
-                <Box>
-                  <VStack mb="8">
-                    <Text fontSize="3xl" fontWeight="bold">{avaliacao.nome}</Text>
-                    <Text fontWeight="regular">Prazo: {avaliacao.dataProva}</Text>
-                  </VStack>
-                  <NavLink icon={null} href="/turma/avaliacao"
-                    bg="#38A169" color="white" type="submit"
-                    colorScheme="green"
-                    size="lg"
-                  >
-                    Fazer prova
-                  </NavLink>
-                </Box>
-              </Flex>
+            turma.avaliacoes.lenght > 0 ? 
+            turma.avaliacoes.map(avaliacao=>
+              {
+                  return (
+                    <Flex bg="red.500" key={avaliacao.id}
+                    w="65%"
+                    justify="center"
+                    align="flex-start"
+                    p="12"
+                    my="5"
+                    borderRadius="10"
+                    >
+                    <Box>
+                      <VStack mb="8">
+                        <Text fontSize="3xl" fontWeight="bold">{avaliacao.nome}</Text>
+                        <Text fontWeight="regular">Prazo: {avaliacao.dataProva}</Text>
+                      </VStack>
+                      <NavLink icon={null} href="/turma/avaliacao"
+                        bg="#38A169" color="white" type="submit"
+                        colorScheme="green"
+                        size="lg"
+                      >
+                        Fazer prova
+                      </NavLink>
+                    </Box>
+                  </Flex>
+                  )
+              }
               )
+              :
+              <Flex bg="red.500"
+              w="65%"
+              justify="center"
+              align="flex-start"
+              p="12"
+              my="5"
+              borderRadius="10"
+              >
+              <Box
+              justify="center"
+              align="center">
+                <VStack mb="8">
+                  <Text fontSize="3xl" fontWeight="bold">Nenhuma avaliação marcada</Text>
+                  <Text fontWeight="regular">Prazo: 00/00/00</Text>
+                </VStack>
+                <NavLink icon={null} href="/turma/avaliacao"
+                  bg="#38A169" color="white" type="button"
+                  colorScheme="green"
+                  size="lg"
+                >
+                  Botão
+                </NavLink>
+              </Box>
+            </Flex>
           }
-          )}
 
           {/**FUNDO BRANCO
            * 
@@ -92,9 +120,10 @@ function Turma({ turma }) {
             <Text fontWeight="bold" fontSize="4xl">Prof: {turma.nomeProfessor}</Text>
           </Flex>
 
-          <VStack>
+          <VStack bottom="8">
 
-            {turma.comentarios.map(comentario => (
+           {
+             turma.comentarios.map(comentario => (
               <Box bg="white" p="8" borderRadius="10" w="50vw" key={comentario.id} >
                 <Text color="black">
                   {comentario.texto}
@@ -107,7 +136,11 @@ function Turma({ turma }) {
                   <Icon as={FiTrash} color="red" fontSize="20" />
                 </HStack>
               </Box>
-            ))}
+            ))
+           
+           }
+
+           <AdicionarComentario turmaId={turma.id} />
 
           </VStack>
 

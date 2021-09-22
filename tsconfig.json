@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/redux/user/user.sagas.js"  ],
+, "src/store/user/user.sagas.js"  ],
   "exclude": [
     "node_modules"
   ]

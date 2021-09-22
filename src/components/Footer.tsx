@@ -5,8 +5,8 @@ export default function Footer() {
 
     return (
         <Flex as="footer"
-            position="absolute" bottom="0"
-            left="30%"
+            position={["absolute", "fixed"]} bottom="-8"
+            left={"25%"}
         >
 
             <Text>

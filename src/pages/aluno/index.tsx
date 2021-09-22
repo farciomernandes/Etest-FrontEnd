@@ -45,8 +45,6 @@ function Login(props) {
           type: 'SIGN_IN_SUCCESS',
           payload: data
       });
-
-        localStorage.setItem('@Etest:user',  JSON.stringify(data));
       
         router.push('/dashboard')
 
