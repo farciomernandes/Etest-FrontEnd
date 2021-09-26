@@ -1,7 +1,14 @@
 import TurmaActionTypes from './turma.types';
 
 const INITIAL_STATE = {
-  user: null,
+  turma: {
+    id: null,
+    nome:  null,
+    avisos: null,
+    nomeProfessor: null,
+    alunos: [],
+    avaliacoes: []
+  },
   error: null
 };
 

@@ -9,13 +9,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 
 import { FiTrash } from "react-icons/fi";
-import { RiAddCircleLine } from "react-icons/ri";
 
-import { useQuery } from "react-query";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -25,6 +22,8 @@ import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 
 function Turma({ turma, user }) {
+
+  console.log('SACA SÓ: ', turma.avaliacoes.length);
 
   const router = useRouter();
 
@@ -61,7 +60,7 @@ function Turma({ turma, user }) {
           <Flex flexDir="column" justify="center" align="flex-start">
             <Text fontSize="4xl">Novos:</Text>
 
-            {turma.avaliacoes.lenght > 0 ? (
+            {turma.avaliacoes.length > 0 ? (
               turma.avaliacoes.map((avaliacao) => {
                 return (
                   <Flex
