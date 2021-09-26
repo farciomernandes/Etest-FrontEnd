@@ -22,14 +22,13 @@ import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 
 function Turma({ turma, user }) {
-
-  console.log('SACA SÓ: ', turma.avaliacoes.length);
+  console.log("SACA SÓ: ", turma.avaliacoes.length);
 
   const router = useRouter();
 
   const handleDeletar = async (idComentario) => {
     try {
-      console.log('TENTA: ', user.usuario.id, turma.id, idComentario)
+      console.log("TENTA: ", user.usuario.id, turma.id, idComentario);
       await api.delete("/comentario", {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -40,9 +39,9 @@ function Turma({ turma, user }) {
           idComentario: idComentario,
         },
       });
-      router.push('/dashboard')
+      router.push("/dashboard");
     } catch (error) {
-      console.log('ERRO: ', error)
+      console.log("ERRO: ", error);
       alert("Erro ao deletar comentário, tente novamente!");
       console.log(error);
     }
@@ -162,35 +161,46 @@ function Turma({ turma, user }) {
           </Flex>
 
           <VStack bottom="8">
-            {turma.comentarios.map((comentario) => (
+            {turma.comentarios.length > 0 ? (
+              turma.comentarios.map((comentario) => (
+                <Box
+                  bg="white"
+                  p="8"
+                  borderRadius="10"
+                  w="50vw"
+                  key={comentario.id}
+                >
+                  <Text color="black">{comentario.texto}</Text>
+                  <HStack justify="space-between" align="center" pt="8">
+                    <Flex justify="center" align="center">
+                      <Avatar
+                        size="sm"
+                        name={turma.nomeProfessor}
+                        src="://.com/farciomernandes.png"
+                      />
+                      <Text color="white.200" ml="3">
+                        {turma.nomeProfessor}
+                      </Text>
+                    </Flex>
+                    <Icon
+                      onClick={() => handleDeletar(comentario.id)}
+                      as={FiTrash}
+                      color="red"
+                      fontSize="20"
+                    />
+                  </HStack>
+                </Box>
+              ))
+            ) : (
               <Box
                 bg="white"
                 p="8"
                 borderRadius="10"
                 w="50vw"
-                key={comentario.id}
               >
-                <Text color="black">{comentario.texto}</Text>
-                <HStack justify="space-between" align="center" pt="8">
-                  <Flex justify="center" align="center">
-                    <Avatar
-                      size="sm"
-                      name={turma.nomeProfessor}
-                      src="://.com/farciomernandes.png"
-                    />
-                    <Text color="white.200" ml="3">
-                      {turma.nomeProfessor}
-                    </Text>
-                  </Flex>
-                  <Icon
-                    onClick={() => handleDeletar(comentario.id)}
-                    as={FiTrash}
-                    color="red"
-                    fontSize="20"
-                  />
-                </HStack>
+                <Text color="black">Não existe nenhum comentário nesta turma</Text>
               </Box>
-            ))}
+            )}
 
             <AdicionarComentario turmaId={turma.id} />
           </VStack>
