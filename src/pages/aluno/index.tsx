@@ -15,13 +15,16 @@ import { api } from '../../services/api';
 
 import { connect } from 'react-redux';
 
+import { useEffect } from 'react';
+
 
 
 import { useRouter } from 'next/dist/client/router';
 
-function Login(props) {
+function Login({ props, user }) {
 
   const router = useRouter();
+
 
   type LoginUser = {
     matricula: string;
@@ -149,4 +152,8 @@ function Login(props) {
   )
 }
 
-export default connect()(Login);
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps)(Login);

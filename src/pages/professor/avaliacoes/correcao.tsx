@@ -5,8 +5,17 @@ import { Header } from '../../../components/Header';
 import { NavLink } from '../../../components/NavLink';
 import Head from "next/head";
 
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 
-export default function CorrigirAvaliacaoes() {
+
+function CorrigirAvaliacaoes( { user }) {
+
+    const router = useRouter();
+
+ 
+
     return (
         <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
             <Header />
@@ -87,3 +96,8 @@ export default function CorrigirAvaliacaoes() {
         </Flex>
     )
 }
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+  });
+  
+export default connect(mapStateToProps)(CorrigirAvaliacaoes);

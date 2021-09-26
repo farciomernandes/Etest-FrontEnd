@@ -13,9 +13,15 @@ import { useQuery } from 'react-query';
 import { api } from '../services/api';
 import Head from "next/head";
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+
 
 
 function Dashboard({ user }) {
+
+  const router = useRouter();
+
 
   const { data, isLoading, error } = useQuery('turmas', async () => {
     const response = await api.get('/turmas');
@@ -93,7 +99,7 @@ function Dashboard({ user }) {
             right="0"
             top="20"
           >
-            {/**<Image src={dashboardImg} width={900} height={900} /> */}
+            <Image src={dashboardImg} width={900} height={900} />
           </Box>
 
         </Flex>
@@ -109,21 +115,3 @@ const mapStateToProps = (state) => ({
 
 
 export default connect(mapStateToProps)(Dashboard);
-
-/*
-export const getServerSideProps: GetServerSideProps = async () => {
-  //Estado global para buscar e salvar as informações do usuario logado
-  return {
-    props: {
-      user: {
-        token: "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIE1hcmNpbyBTcHJpbmciLCJzdWIiOiIxIiwiaWF0IjoxNjMwNjk1NDc1LCJleHAiOjE2MzA3ODE4NzV9.oOA1rhRvj0Ivi0GsQ-AZuUxhxPZHTeKKxLaIyEW_Cpk",
-        tipo: "Bearer",
-        nome: "Lucas França",
-        id: 1,
-        matricula: '40028922',
-        senha: '123456'
-      }
-    }
-  }
-}
- */

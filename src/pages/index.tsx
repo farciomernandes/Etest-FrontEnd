@@ -4,14 +4,23 @@ import Head from "next/head";
 
 
 import Image from 'next/image'
+import { useEffect } from 'react';
 
 import logoImg from '../assets/images/logo2.svg';
 
 import { VscSignOut } from 'react-icons/vsc';
 import { NavLink } from '../components/NavLink';
 
+import { connect } from 'react-redux';
 
-export default function Home() {
+
+import { useRouter } from 'next/dist/client/router';
+
+
+function Home({ user }) {
+
+  const router = useRouter();
+
   return (
 
     <Flex
@@ -116,3 +125,9 @@ export default function Home() {
 
   )
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps)(Home);

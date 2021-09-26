@@ -1,8 +1,14 @@
 import { Box, Button, Flex, Table, TableCaption, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { useEffect } from 'react';
+import { connect } from "react-redux";
 
 
-export default function Boletim() {
+function Boletim({ user }) {
+
+    const router = useRouter();
 
 
     return (
@@ -141,3 +147,8 @@ export default function Boletim() {
 
     );
 }
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+  });
+  
+export default connect(mapStateToProps)(Boletim);

@@ -12,9 +12,13 @@ import logoImg from '../assets/images/logo.svg';
 import RadioCard from '../components/RadioCard';
 
 import { NavLink } from '../components/NavLink';
+import { useRouter } from 'next/router';
+
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 
-export default function Cadastro() {
+function Cadastro({ user }) {
     const options = ["Professor", "Aluno"]
 
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -24,6 +28,8 @@ export default function Cadastro() {
     })
 
     const group = getRootProps();
+
+    const router = useRouter();
 
     return (
         <Flex
@@ -127,3 +133,8 @@ export default function Cadastro() {
         </Flex>
     )
 }
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+  });
+  
+export default connect(mapStateToProps)(Cadastro);

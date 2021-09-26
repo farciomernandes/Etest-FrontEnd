@@ -1,15 +1,16 @@
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   Icon,
-  Stack,
   Text,
   VStack,
+  Button
 } from "@chakra-ui/react";
 import Head from "next/head";
+
+import { useEffect } from 'react';
 
 import { FiTrash } from "react-icons/fi";
 
@@ -21,14 +22,14 @@ import { NavLink } from "../../components/NavLink";
 import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 
-function Turma({ turma, user }) {
-  console.log("SACA SÓ: ", turma.avaliacoes.length);
+function Turma({ turma, user, dispatch }) {
 
   const router = useRouter();
 
+
+
   const handleDeletar = async (idComentario) => {
     try {
-      console.log("TENTA: ", user.usuario.id, turma.id, idComentario);
       await api.delete("/comentario", {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -46,6 +47,28 @@ function Turma({ turma, user }) {
       console.log(error);
     }
   };
+
+  async function searchAvaliacao(id) {
+    try {
+      const response = await api.get(`/avaliacao/${router.query.id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log('VAI SALVAR ISSO: ', response.data);
+      dispatch({
+        type: "AVALIACAO_SUCCESS",
+        payload: response.data,
+      });
+      router.push(`/turma/avaliacao/${id}`);
+    } catch (error) {
+      dispatch({
+        type: "AVALIACAO_FAILURE",
+        payload: error,
+      });
+      alert("Erro ao buscar turma, tente novamente!");
+    }
+  }
 
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
@@ -81,17 +104,17 @@ function Turma({ turma, user }) {
                           Prazo: {avaliacao.dataProva}
                         </Text>
                       </VStack>
-                      <NavLink
+                      <Button
                         icon={null}
-                        href="/turma/avaliacao"
                         bg="#38A169"
                         color="white"
                         type="submit"
                         colorScheme="green"
                         size="lg"
+                        onClick={()=> searchAvaliacao(avaliacao.id)}
                       >
                         Fazer prova
-                      </NavLink>
+                      </Button>
                     </Box>
                   </Flex>
                 );

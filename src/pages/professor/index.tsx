@@ -13,12 +13,14 @@ import { useMutation } from 'react-query';
 import logoImg from '../../assets/images/logo.svg';
 import { api } from '../../services/api';
 
+import { useEffect } from 'react';
+
 import { connect } from 'react-redux';
 
 
 import { useRouter } from 'next/dist/client/router';
 
-function Login(props) {
+function Login( props ) {
 
   const router = useRouter();
 
@@ -148,4 +150,8 @@ function Login(props) {
   )
 }
 
-export default connect()(Login);
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps)(Login);

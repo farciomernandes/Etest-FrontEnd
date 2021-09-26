@@ -4,9 +4,17 @@ import { Header } from '../../components/Header';
 import BancoQuestaoModal from '../../components/Modal/bancoquestao';
 import Head from "next/head";
 import { GrFormAdd } from 'react-icons/gr';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 
-export default function ListarBanco() {
+function ListarBanco({ user }) {
+
+    const router = useRouter();
+
+
+
     return (
         <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
             <Header />
@@ -394,3 +402,9 @@ export default function ListarBanco() {
         </Flex>
     )
 }
+
+const mapStateToProps = (state) => ({
+    user: state.user.user,
+  });
+  
+export default connect(mapStateToProps)(ListarBanco);
