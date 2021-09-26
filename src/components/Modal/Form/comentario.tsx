@@ -26,7 +26,6 @@ const AdicionarComentario = ({ turmaId, user }) => {
     const router = useRouter();
 
     const handleAdicionarComentario = useMutation(async(form: Comentario)=>{
-        console.log('ENTROU AQUI');
         try {
             await api.post("/comentario", { texto: form.comentario, idTurma: turmaId },  { headers: {
                 Authorization: `Bearer ${user.token}`
