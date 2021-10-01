@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { useEffect } from "react";
-
 import { format, parseISO } from "date-fns";
+
+import { NavLink } from "../../components/NavLink";
 
 import { FiTrash } from "react-icons/fi";
 
@@ -20,7 +20,6 @@ import { connect } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Header } from "../../components/Header";
-import { NavLink } from "../../components/NavLink";
 import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 
@@ -134,19 +133,7 @@ function Turma({ turma, user, dispatch }) {
                     <Text fontSize="3xl" fontWeight="bold">
                       Nenhuma avaliação marcada
                     </Text>
-                    <Text fontWeight="regular">Prazo: 00/00/00</Text>
                   </VStack>
-                  <NavLink
-                    icon={null}
-                    href="/turma/avaliacao"
-                    bg="#38A169"
-                    color="white"
-                    type="button"
-                    colorScheme="green"
-                    size="lg"
-                  >
-                    Botão
-                  </NavLink>
                 </Box>
               </Flex>
             )}
@@ -175,12 +162,27 @@ function Turma({ turma, user, dispatch }) {
            */}
           </Flex>
         </Flex>
-        <Flex flexDir="column">
-          <Flex flexDir="column">
-            <Text fontSize="3xl">Turma: {turma.nome}</Text>
-            <Text fontWeight="bold" fontSize="4xl">
-              Prof: {turma.nomeProfessor}
-            </Text>
+        <Flex flexDir="column" w="100%" justify="center">
+          <Flex justify="space-between" align="flex-end" mb="2">
+            <Flex flexDir="column">
+              <Text fontSize="3xl">Turma: {turma.nome}</Text>
+              <Text fontWeight="bold" fontSize="4xl">
+                Prof: {turma.nomeProfessor}
+              </Text>
+            </Flex>
+
+            {user.usuario.roles && (
+              <NavLink
+                icon={null}
+                w="20%"
+                href="/turma/avaliacao/criar"
+                size="lg"
+                bg="white.900"
+                color="purple.800"
+              >
+                Criar Avaliação
+              </NavLink>
+            )}
           </Flex>
 
           <VStack bottom="8">

@@ -1,12 +1,7 @@
 import { Button, Flex, Icon, Stack, Text, HStack, Box } from "@chakra-ui/react";
-import { useRadioGroup } from "@chakra-ui/radio";
-import Link from "next/link";
 import Head from "next/head";
 
 import { Input } from "../../components/Form/input";
-import Image from "next/image";
-
-import logoImg from "../../assets/images/logo.svg";
 
 import { useRouter } from "next/router";
 
@@ -78,7 +73,13 @@ function CriarTurma({ dispatch, user }) {
   };
 
   return (
-    <Flex w="100vw" h="100vh" align="center" justify="center">
+    <Flex
+      w="100vw"
+      h="100vh"
+      align="center"
+      justify="center"
+      direction="column"
+    >
       <Head>
         <title>Criar Turma | E-test</title>
       </Head>
@@ -94,11 +95,9 @@ function CriarTurma({ dispatch, user }) {
         <Box as="form" onSubmit={handleSubmit(handlecriarTurma)}>
           <Flex flexDirection="column" align="center" justify="center" mb="20">
             <Stack spacing="12">
-              <Image src={logoImg} alt="E- Test" width={30} height={30} />
-
               <Text
                 fontSize="3xl"
-                color="black"
+                color="purple.800"
                 align="center"
                 justify="center"
                 fontWeight="bold"
@@ -123,7 +122,6 @@ function CriarTurma({ dispatch, user }) {
               {...register("senha")}
               type="password"
               placeholder="Senha do usuário"
-              mb="20"
             />
 
             <Input
@@ -148,15 +146,6 @@ function CriarTurma({ dispatch, user }) {
             >
               Cadastrar
             </Button>
-
-            <Flex justify="center" align="center" fontWeight="bold">
-              <Flex justify="center" align="center" color="white">
-                <Text color="black">Já tem conta?</Text>
-                <Text fontWeight="bold" color="purple.800" ml="2">
-                  <Link href="/">Faça login</Link>
-                </Text>
-              </Flex>
-            </Flex>
           </Stack>
         </Box>
       </Flex>

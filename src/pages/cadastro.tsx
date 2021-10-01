@@ -10,7 +10,6 @@ import { VscSignOut } from "react-icons/vsc";
 import logoImg from "../assets/images/logo.svg";
 import RadioCard from "../components/RadioCard";
 
-import { NavLink } from "../components/NavLink";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
