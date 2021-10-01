@@ -6,11 +6,13 @@ import {
   Icon,
   Text,
   VStack,
-  Button
+  Button,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+import { format, parseISO } from "date-fns";
 
 import { FiTrash } from "react-icons/fi";
 
@@ -23,10 +25,7 @@ import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 
 function Turma({ turma, user, dispatch }) {
-
   const router = useRouter();
-
-
 
   const handleDeletar = async (idComentario) => {
     try {
@@ -55,7 +54,7 @@ function Turma({ turma, user, dispatch }) {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      console.log('VAI SALVAR ISSO: ', response.data);
+      console.log("VAI SALVAR ISSO: ", response.data);
       dispatch({
         type: "AVALIACAO_SUCCESS",
         payload: response.data,
@@ -101,7 +100,11 @@ function Turma({ turma, user, dispatch }) {
                           {avaliacao.nome}
                         </Text>
                         <Text fontWeight="regular">
-                          Prazo: {avaliacao.dataProva}
+                          Data:{" "}
+                          {format(
+                            parseISO(avaliacao.dataProva),
+                            "dd/MM/yyyy',' HH:mm"
+                          )}
                         </Text>
                       </VStack>
                       <Button
@@ -111,7 +114,7 @@ function Turma({ turma, user, dispatch }) {
                         type="submit"
                         colorScheme="green"
                         size="lg"
-                        onClick={()=> searchAvaliacao(avaliacao.id)}
+                        onClick={() => searchAvaliacao(avaliacao.id)}
                       >
                         Fazer prova
                       </Button>
@@ -215,13 +218,10 @@ function Turma({ turma, user, dispatch }) {
                 </Box>
               ))
             ) : (
-              <Box
-                bg="white"
-                p="8"
-                borderRadius="10"
-                w="50vw"
-              >
-                <Text color="black">Não existe nenhum comentário nesta turma</Text>
+              <Box bg="white" p="8" borderRadius="10" w="50vw">
+                <Text color="black">
+                  Não existe nenhum comentário nesta turma
+                </Text>
               </Box>
             )}
 

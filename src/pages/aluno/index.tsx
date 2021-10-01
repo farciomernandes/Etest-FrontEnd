@@ -1,30 +1,26 @@
-import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Button } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { Input } from '../../components/Form/input';
-import Image from 'next/image'
-import Link from 'next/link';
+import { Input } from "../../components/Form/input";
+import Image from "next/image";
+import Link from "next/link";
 
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useMutation } from 'react-query';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useMutation } from "react-query";
 
-import logoImg from '../../assets/images/logo.svg';
-import { api } from '../../services/api';
+import logoImg from "../../assets/images/logo.svg";
+import { api } from "../../services/api";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
+import { useRouter } from "next/dist/client/router";
 
-
-import { useRouter } from 'next/dist/client/router';
-
-function Login({ props, user }) {
-
+function Login(props) {
   const router = useRouter();
-
 
   type LoginUser = {
     matricula: string;
@@ -32,53 +28,53 @@ function Login({ props, user }) {
   };
 
   const loginAlunoFormSchema = yup.object().shape({
-    matricula: yup.string().required('Matrícula obrigatória'),
-    senha: yup.string().required('Senha obrigatória').min(6, 'No mínimo 6 caracteres'),
+    matricula: yup.string().required("Matrícula obrigatória"),
+    senha: yup
+      .string()
+      .required("Senha obrigatória")
+      .min(6, "No mínimo 6 caracteres"),
   });
 
-
   const loginUser = useMutation(async (form: LoginUser) => {
-      const { dispatch } = props;
-      let response;
-      try {
-        response = await api.post('/autenticacao', form);
-        const { data } = response;
+    const { dispatch } = props;
+    let response;
+    try {
+      response = await api.post("/autenticacao", form);
+      const { data } = response;
 
-        dispatch({
-          type: 'SIGN_IN_SUCCESS',
-          payload: data
+      dispatch({
+        type: "SIGN_IN_SUCCESS",
+        payload: data,
       });
-      
-        router.push('/dashboard')
 
-      } catch (error) {
-        dispatch({
-          type: 'SIGN_IN_FAILURE',
-          payload: error.message  
+      router.push("/dashboard");
+    } catch (error) {
+      dispatch({
+        type: "SIGN_IN_FAILURE",
+        payload: error.message,
       });
       alert("Erro ao realizar login, tente novamente!");
-      }
+    }
   });
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(loginAlunoFormSchema)
-  })
+    resolver: yupResolver(loginAlunoFormSchema),
+  });
 
   const handleLoginUser: SubmitHandler<LoginUser> = async (values) => {
-    await loginUser.mutateAsync(values)
-  }
+    await loginUser.mutateAsync(values);
+  };
 
   return (
-    <Flex
-      w="100vw"
-      h="100vh"
-      align="center"
-      justify="center">
+    <Flex w="100vw" h="100vh" align="center" justify="center">
       <Head>
         <title>Login aluno | E-test</title>
       </Head>
 
-      <Box as="form" w="100%" maxWidth={520}
+      <Box
+        as="form"
+        w="100%"
+        maxWidth={520}
         bg="white.900"
         p="50"
         py="100"
@@ -86,52 +82,40 @@ function Login({ props, user }) {
         flexDirection="column"
         onSubmit={handleSubmit(handleLoginUser)}
       >
-        <Flex
-          flexDirection="column"
-          align="center"
-          justify="center"
-          mb="20"
-        >
+        <Flex flexDirection="column" align="center" justify="center" mb="20">
           <Stack spacing="12">
-            <Image
-              src={logoImg}
-              alt="E- Test"
-              width={30}
-              height={30}
-            />
+            <Image src={logoImg} alt="E- Test" width={30} height={30} />
 
-            <Text
-              fontSize="3xl"
-              color="black"
-              align="center"
-              justify="center"
-            >
+            <Text fontSize="3xl" color="black" align="center" justify="center">
               Entrar como aluno
             </Text>
           </Stack>
         </Flex>
 
         <Stack spacing="4">
-
           <Input
             type="text"
             placeholder="Matrícula"
             name="matricula"
-            error={formState.errors.name}
+            error={formState.errors.matricula}
             {...register("matricula")}
           />
           <Input
             name="senha"
-            error={formState.errors.name}
-            {...register("senha")} type="password"
+            error={formState.errors.senha}
+            {...register("senha")}
+            type="password"
             placeholder="Senha"
           />
         </Stack>
 
         <Stack spacing="5" mt="8">
-          <Button icon={null} href="/aluno"
+          <Button
+            icon={null}
+            href="/aluno"
             color="white"
-            h="47" size="lg"
+            h="47"
+            size="lg"
             colorScheme="red"
             type="submit"
           >
@@ -146,14 +130,9 @@ function Login({ props, user }) {
             </Flex>
           </Flex>
         </Stack>
-
       </Box>
     </Flex>
-  )
+  );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
-
-export default connect(mapStateToProps)(Login);
+export default connect()(Login);

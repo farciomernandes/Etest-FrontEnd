@@ -27,6 +27,7 @@ function Avaliacao({ user, dispatch, avaliacao }) {
     const nextQuestion = atual + 1;
     setAtual(nextQuestion);
     setQuestoes(avaliacao.questoes[atual]);
+    console.log('QUESTAO ATUAL : ',questoes)
   }
   
   return (
@@ -76,7 +77,7 @@ function Avaliacao({ user, dispatch, avaliacao }) {
                   </Text>
 
                   <Text color="black" my="5">
-                    {questoes.descricao}
+                    {avaliacao.questoes[atual].descricao}
                   </Text>
 
                   <RadioGroup
@@ -86,15 +87,15 @@ function Avaliacao({ user, dispatch, avaliacao }) {
                   >
                     <Stack spacing="8">
                       <Radio value="1">
-                      {questoes.alternativa1}
+                      {avaliacao.questoes[atual].alternativa1}
                       </Radio>
                       <Radio value="2">
-                      {questoes.alternativa2}
+                      {avaliacao.questoes[atual].alternativa2}
                       </Radio>
                       <Radio value="3">
-                      {questoes.alternativa3}
+                      {avaliacao.questoes[atual].alternativa3}
                       </Radio>
-                      <Radio value="4"> {questoes.alternativa4}</Radio>
+                      <Radio value="4"> {avaliacao.questoes[atual].alternativa4}</Radio>
                     </Stack>
                   </RadioGroup>
                 </Box>
