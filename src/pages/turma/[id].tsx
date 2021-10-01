@@ -41,9 +41,7 @@ function Turma({ turma, user, dispatch }) {
       });
       router.push("/dashboard");
     } catch (error) {
-      console.log("ERRO: ", error);
       alert("Erro ao deletar comentário, tente novamente!");
-      console.log(error);
     }
   };
 
@@ -54,7 +52,6 @@ function Turma({ turma, user, dispatch }) {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      console.log("VAI SALVAR ISSO: ", response.data);
       dispatch({
         type: "AVALIACAO_SUCCESS",
         payload: response.data,

@@ -35,7 +35,6 @@ type Turma = {
 
 function TurmasModal({ turmas, user, role, dispatch }) {
   const router = useRouter();
-  console.log(role);
 
   async function searchTurma(id) {
     try {
@@ -60,7 +59,7 @@ function TurmasModal({ turmas, user, role, dispatch }) {
   }
 
   async function handleCriarTurma() {
-    alert(role[0].nome);
+    router.push(`turma/criar`);
   }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -124,7 +123,7 @@ function TurmasModal({ turmas, user, role, dispatch }) {
                 ))}
                 {role && (
                   <Button
-                    w="200%"
+                    w="100%"
                     type="button"
                     onClick={handleCriarTurma}
                     size="lg"
