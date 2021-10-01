@@ -52,7 +52,10 @@ function Dashboard({ user }) {
 
           <Flex align="center" justify="space-between" mt="12">
             <VStack spacing="8">
-              <TurmasModal turmas={user.usuario.turmas} />
+              <TurmasModal
+                turmas={user.usuario.turmas}
+                role={user.usuario.roles ? user.usuario.roles : null}
+              />
 
               <NavLink
                 icon={null}
