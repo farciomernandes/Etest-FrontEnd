@@ -14,12 +14,31 @@ import BancoQuestaoModal from "../../components/Modal/bancoquestao";
 import Head from "next/head";
 import { GrFormAdd } from "react-icons/gr";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "../../components/NavLink";
+import { useQuery } from "react-query";
+import { api } from "../../services/api";
 
 function ListarBanco({ user }) {
   const router = useRouter();
+
+  const [questoes, setQuestoes] = useState([]);
+
+  useEffect(() => {
+    async function loadingQuestoes() {
+      const response = await api.get("/questao", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const data = response.data;
+
+      setQuestoes(data);
+    }
+
+    loadingQuestoes();
+  }, []);
 
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
@@ -114,325 +133,88 @@ function ListarBanco({ user }) {
                 </NavLink>
               </Flex>
             </HStack>
-            <Flex
-              bg="white"
-              p="8"
-              borderRadius="10"
-              maxWidth="90vw"
-              minWidth="70vw"
-              mt="8"
-            >
+            {questoes.map((questao) => (
               <Flex
-                width="100%"
-                d="flex"
-                justify="space-between"
-                align="center"
+                bg="white"
+                p="8"
+                borderRadius="10"
+                maxWidth="90vw"
+                minWidth="70vw"
+                mt="8"
+                key={questao.id}
               >
-                <Stack px="8">
-                  <Text fontWeight="bold" fontSize="2xl" color="purple.800">
-                    Front-end e Javascript
-                  </Text>
-                  <HStack>
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Disciplina
-                    </Box>
+                <Flex
+                  width="100%"
+                  d="flex"
+                  justify="space-between"
+                  align="center"
+                >
+                  <Stack px="8">
+                    <Text fontWeight="bold" fontSize="2xl" color="purple.800">
+                      {questao.descricao}
+                    </Text>
+                    <HStack>
+                      <Box
+                        p="1"
+                        rounded="md"
+                        w="100%"
+                        minW={110}
+                        bg="white"
+                        color="red"
+                        border="1px"
+                        align="center"
+                        borderColor="red"
+                      >
+                        {questao.disciplina}
+                      </Box>
 
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Unidade
-                    </Box>
+                      <Box
+                        p="1"
+                        rounded="md"
+                        w="100%"
+                        minW={110}
+                        bg="white"
+                        color="red"
+                        border="1px"
+                        align="center"
+                        borderColor="red"
+                      >
+                        {questao.unidade}
+                      </Box>
 
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Assunto
-                    </Box>
+                      <Box
+                        p="1"
+                        rounded="md"
+                        w="100%"
+                        minW={110}
+                        bg="white"
+                        color="red"
+                        border="1px"
+                        align="center"
+                        borderColor="red"
+                      >
+                        {questao.assunto}
+                      </Box>
 
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Dificuldade
-                    </Box>
-                  </HStack>
-                </Stack>
-                <BancoQuestaoModal />
+                      <Box
+                        p="1"
+                        rounded="md"
+                        w="100%"
+                        minW={110}
+                        bg="white"
+                        color="red"
+                        border="1px"
+                        align="center"
+                        borderColor="red"
+                      >
+                        {questao.nivel}
+                      </Box>
+                    </HStack>
+                  </Stack>
+                  <BancoQuestaoModal questao={questao} />
+                </Flex>
               </Flex>
-            </Flex>
-
-            <Flex
-              bg="white"
-              p="8"
-              borderRadius="10"
-              maxWidth="90vw"
-              minWidth="70vw"
-              mt="8"
-            >
-              <Flex
-                width="100%"
-                d="flex"
-                justify="space-between"
-                align="center"
-              >
-                <Stack px="8">
-                  <Text fontWeight="bold" fontSize="2xl" color="purple.800">
-                    Front-end e Javascript
-                  </Text>
-                  <HStack>
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Disciplina
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Unidade
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Assunto
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Dificuldade
-                    </Box>
-                  </HStack>
-                </Stack>
-                <BancoQuestaoModal />
-              </Flex>
-            </Flex>
-
-            <Flex
-              bg="white"
-              p="8"
-              borderRadius="10"
-              maxWidth="90vw"
-              minWidth="70vw"
-              mt="8"
-            >
-              <Flex
-                width="100%"
-                d="flex"
-                justify="space-between"
-                align="center"
-              >
-                <Stack px="8">
-                  <Text fontWeight="bold" fontSize="2xl" color="purple.800">
-                    Front-end e Javascript
-                  </Text>
-                  <HStack>
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Disciplina
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Unidade
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Assunto
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Dificuldade
-                    </Box>
-                  </HStack>
-                </Stack>
-                <BancoQuestaoModal />
-              </Flex>
-            </Flex>
-
-            <Flex
-              bg="white"
-              p="8"
-              borderRadius="10"
-              maxWidth="90vw"
-              minWidth="70vw"
-              mt="8"
-            >
-              <Flex
-                width="100%"
-                d="flex"
-                justify="space-between"
-                align="center"
-              >
-                <Stack px="8">
-                  <Text fontWeight="bold" fontSize="2xl" color="purple.800">
-                    Front-end e Javascript
-                  </Text>
-                  <HStack>
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Disciplina
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Unidade
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Assunto
-                    </Box>
-
-                    <Box
-                      p="1"
-                      rounded="md"
-                      w="100%"
-                      minW={110}
-                      bg="white"
-                      color="red"
-                      border="1px"
-                      align="center"
-                      borderColor="red"
-                    >
-                      Dificuldade
-                    </Box>
-                  </HStack>
-                </Stack>
-                <BancoQuestaoModal />
-              </Flex>
-            </Flex>
+            ))}
           </VStack>
         </Flex>
       </Flex>
