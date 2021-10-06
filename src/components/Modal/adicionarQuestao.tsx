@@ -25,7 +25,7 @@ import { api } from "../../services/api";
 import { connect } from "react-redux";
 import { NavLink } from "../NavLink";
 
-const AdicionarQuestao = ({ user }) => {
+const AdicionarQuestao = ({ user, dispatch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
@@ -41,9 +41,10 @@ const AdicionarQuestao = ({ user }) => {
 
   const handleCriar = useMutation(async (form: adicionarQuestao) => {
     try {
+      const id = router.query.id;
       await api.post(
         `/avaliacao/adicionar`,
-        { idQuestao: form.idQuestao, idAvaliacao: query.id },
+        { idQuestao: form.idQuestao, idAvaliacao: id },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -52,6 +53,18 @@ const AdicionarQuestao = ({ user }) => {
       );
 
       alert("Adicionada com Sucesso!");
+
+      const response = await api.get(`/avaliacao/${router.query.id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      dispatch({
+        type: "AVALIACAO_SUCCESS",
+        payload: response.data,
+      });
+
+      router.push(`/turma/avaliacao/editar/${query.id}`);
     } catch (error) {
       alert("Erro ao adicionar, tente novamente!");
     }
@@ -75,7 +88,7 @@ const AdicionarQuestao = ({ user }) => {
             w="100%"
             type="button"
             icon={null}
-            href={`/turma/avaliacao/${query.id}/editar`}
+            href={`/turma/avaliacao/editar/${query.id}`}
             h="57"
             size="lg"
             bg="white.900"

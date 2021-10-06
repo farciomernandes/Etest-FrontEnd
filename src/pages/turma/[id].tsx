@@ -104,17 +104,32 @@ function Turma({ turma, user, dispatch }) {
                           )}
                         </Text>
                       </VStack>
-                      <Button
-                        icon={null}
-                        bg="#38A169"
-                        color="white"
-                        type="submit"
-                        colorScheme="green"
-                        size="lg"
-                        onClick={() => searchAvaliacao(avaliacao.id)}
-                      >
-                        Fazer prova
-                      </Button>
+                      {user.usuario.roles != null ? (
+                        <HStack>
+                          <NavLink
+                            icon={null}
+                            w="100%"
+                            href={`/turma/avaliacao/editar/${router.query.id}`}
+                            size="lg"
+                            bg="green.600"
+                            color="white"
+                          >
+                            Ver Prova
+                          </NavLink>
+                        </HStack>
+                      ) : (
+                        <Button
+                          icon={null}
+                          bg="#38A169"
+                          color="white"
+                          type="submit"
+                          colorScheme="green"
+                          size="lg"
+                          onClick={() => searchAvaliacao(avaliacao.id)}
+                        >
+                          Fazer prova
+                        </Button>
+                      )}
                     </Box>
                   </Flex>
                 );

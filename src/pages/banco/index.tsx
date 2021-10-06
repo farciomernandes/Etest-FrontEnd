@@ -129,7 +129,7 @@ function ListarBanco({ user }) {
                   bg="white.900"
                   color="purple.800"
                 >
-                  Adicionar questão
+                  Criar questão
                 </NavLink>
               </Flex>
             </HStack>

@@ -10,11 +10,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { Header } from "../../../../components/Header";
-import ReportarQuestao from "../../../../components/Modal/reportar";
 import { useRouter } from "next/router";
 
 import { connect } from "react-redux";
+import { Header } from "../../../../components/Header";
+import ReportarQuestao from "../../../../components/Modal/reportar";
 
 function Avaliacao({ user, dispatch, avaliacao }) {
   const router = useRouter();
