@@ -22,8 +22,6 @@ import { useRouter } from "next/dist/client/router";
 import { api } from "../../services/api";
 import { connect } from "react-redux";
 
-import { BsPlusCircle } from "react-icons/bs";
-
 type Turma = {
   id: number;
   nome: string;

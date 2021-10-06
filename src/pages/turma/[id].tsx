@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 import { Header } from "../../components/Header";
 import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
+import AdicionarAluno from "../../components/Modal/adicionaaluno";
 
 function Turma({ turma, user, dispatch }) {
   const router = useRouter();
@@ -55,7 +56,7 @@ function Turma({ turma, user, dispatch }) {
         type: "AVALIACAO_SUCCESS",
         payload: response.data,
       });
-      router.push(`/turma/avaliacao/${id}`);
+      router.push(`/turma/avaliacao/${router.query.id}`);
     } catch (error) {
       dispatch({
         type: "AVALIACAO_FAILURE",
@@ -83,7 +84,7 @@ function Turma({ turma, user, dispatch }) {
                   <Flex
                     bg="red.500"
                     key={avaliacao.id}
-                    w="65%"
+                    w="90%"
                     justify="center"
                     align="flex-start"
                     p="12"
@@ -162,7 +163,7 @@ function Turma({ turma, user, dispatch }) {
            */}
           </Flex>
         </Flex>
-        <Flex flexDir="column" w="100%" justify="center">
+        <Flex flexDir="column" w="100%" justify="center" maxW="50vw">
           <Flex justify="space-between" align="flex-end" mb="2">
             <Flex flexDir="column">
               <Text fontSize="3xl">Turma: {turma.nome}</Text>
@@ -172,16 +173,19 @@ function Turma({ turma, user, dispatch }) {
             </Flex>
 
             {user.usuario.roles && (
-              <NavLink
-                icon={null}
-                w="20%"
-                href="/turma/avaliacao/criar"
-                size="lg"
-                bg="white.900"
-                color="purple.800"
-              >
-                Criar Avaliação
-              </NavLink>
+              <HStack>
+                <AdicionarAluno />
+                <NavLink
+                  icon={null}
+                  w="100%"
+                  href={`/turma/avaliacao/${router.query.id}/criar`}
+                  size="lg"
+                  bg="white.900"
+                  color="purple.800"
+                >
+                  Add Avaliação
+                </NavLink>
+              </HStack>
             )}
           </Flex>
 
@@ -207,12 +211,16 @@ function Turma({ turma, user, dispatch }) {
                         {turma.nomeProfessor}
                       </Text>
                     </Flex>
-                    <Icon
-                      onClick={() => handleDeletar(comentario.id)}
-                      as={FiTrash}
-                      color="red"
-                      fontSize="20"
-                    />
+                    {user.usuario.roles && (
+                      <>
+                        <Icon
+                          onClick={() => handleDeletar(comentario.id)}
+                          as={FiTrash}
+                          color="red"
+                          fontSize="20"
+                        />{" "}
+                      </>
+                    )}
                   </HStack>
                 </Box>
               ))
@@ -224,7 +232,11 @@ function Turma({ turma, user, dispatch }) {
               </Box>
             )}
 
-            <AdicionarComentario turmaId={turma.id} />
+            {user.usuario.roles && (
+              <>
+                <AdicionarComentario turmaId={turma.id} />
+              </>
+            )}
           </VStack>
         </Flex>
       </Flex>

@@ -28,6 +28,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
+import { Header } from "../../components/Header";
 
 function AdicionarQuestao({ dispatch, user }) {
   const [disciplina, setDisciplina] = useState("Disciplina");
@@ -110,6 +111,8 @@ function AdicionarQuestao({ dispatch, user }) {
       <Head>
         <title>Adicionar ao Banco | E-test</title>
       </Head>
+      <Header />
+
       <Flex
         w="100%"
         maxWidth={850}

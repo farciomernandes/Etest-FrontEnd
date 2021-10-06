@@ -10,8 +10,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { Header } from "../../../components/Header";
-import ReportarQuestao from "../../../components/Modal/reportar";
+import { Header } from "../../../../components/Header";
+import ReportarQuestao from "../../../../components/Modal/reportar";
 import { useRouter } from "next/router";
 
 import { connect } from "react-redux";
@@ -54,7 +54,7 @@ function Avaliacao({ user, dispatch, avaliacao }) {
               <Box
                 bg="red.500"
                 color="white"
-                maxWidth="10%"
+                maxWidth="20%"
                 p="3"
                 align="center"
                 borderRadius="5"

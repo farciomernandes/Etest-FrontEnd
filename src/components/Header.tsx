@@ -16,23 +16,25 @@ export function Header() {
       align="center"
     >
       <Flex w="100%" justify="space-between" align="center">
-        <Flex>
-          <Image src={logoImg} alt="E- test" />
+        <Flex cursor="pointer">
+          <ActiveLink href="/dashboard" passHref>
+            <Image src={logoImg} alt="E- test" />
+          </ActiveLink>
         </Flex>
         <HStack spacing="8" fontWeight="bold" ml="auto">
-          <ActiveLink href={"turma/avaliacao/criar"} passHref>
+          <ActiveLink href={`/turma/avaliacao/:id/criar`} passHref>
             <Text cursor="pointer">Avaliações</Text>
           </ActiveLink>
-          <ActiveLink href={"aluno/boletim"} passHref>
+          <ActiveLink href={"/aluno/boletim"} passHref>
             <Text cursor="pointer">Boletim</Text>
           </ActiveLink>
-          <ActiveLink href={"banco"} passHref>
+          <ActiveLink href="/banco" passHref>
             <Text cursor="pointer">Banco de Questões</Text>
           </ActiveLink>
           <Avatar
             size="lg"
             name="Marcio Fernandes"
-            src="https://github.com/farciomernandes.png"
+            src="https://github.com/dasd.png"
           />
         </HStack>
       </Flex>

@@ -63,7 +63,7 @@ function BancoQuestaoModal({ questao }) {
                     {questao.descricao}
                   </Text>
 
-                  <RadioGroup colorScheme="purple" defaultValue="3">
+                  <RadioGroup colorScheme="purple">
                     <Stack spacing="8">
                       <Radio value="1" isDisabled>
                         {questao.alternativa1}
@@ -71,13 +71,19 @@ function BancoQuestaoModal({ questao }) {
                       <Radio value="2" isDisabled>
                         {questao.alternativa2}
                       </Radio>
-                      <Radio value="3">{questao.alternativa3}</Radio>
+                      <Radio value="3" isDisabled>
+                        {questao.alternativa3}
+                      </Radio>
                       <Radio value="4" isDisabled>
                         {questao.alternativa4}
                       </Radio>
                     </Stack>
                   </RadioGroup>
                 </Box>
+                <VStack color="black" fontWeight="bold" spacing="6">
+                  <Text mt="12">Resposta correta:</Text>
+                  <Text color="purple.800"> {questao.correta}</Text>
+                </VStack>
               </VStack>
             </ModalBody>
             <ModalFooter justify="center" align="center">
