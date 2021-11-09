@@ -165,6 +165,7 @@ function ListarBanco({ user }) {
                         align="center"
                         borderColor="red"
                         fontWeight="bold"
+                        aling="center"
                       >
                         {questao.disciplina}
                       </Box>

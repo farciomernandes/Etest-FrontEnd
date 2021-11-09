@@ -165,7 +165,7 @@ function Cadastro(props) {
             />
           </Stack>
 
-          <Stack spacing="5">
+          <Stack spacing="5" mt="4">
             <Button
               icon={null}
               href="/dashboard"

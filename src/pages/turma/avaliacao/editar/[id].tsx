@@ -44,7 +44,7 @@ function EditarAvaliacao({ user }) {
 
   const { data, isLoading, error } = useQuery("avaliacao", async () => {
     const id = router.query.id;
-    const response = await api.get(`/avaliacao/1`, {
+    const response = await api.get(`/avaliacao/${id}`, {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import {
   Avatar,
   Box,
@@ -153,29 +154,39 @@ function Turma({ turma, user, dispatch }) {
                 </Box>
               </Flex>
             )}
-
-            {/**FUNDO BRANCO
-           * 
-           *    <Flex bg="white" w="65%" justify="center" align="flex-start" p="12"
-            my="5" color="black"
-            borderRadius="10"
-          >
-            <Box>
-              <VStack mb="8">
-                <Text fontSize="3xl" fontWeight="bold">{avaliacao.nome}</Text>
-                <Text fontWeight="regular">Prazo:{avaliacao.dataProva}</Text>
-              </VStack>
-              <NavLink icon={null} href="/turma/avaliacao"
-                bg="#38A169" color="white" type="submit"
-                colorScheme="green"
-                size="lg"
-              >
-                Definir lembrete
-              </NavLink>
-            </Box>
-
-          </Flex>
-           */}
+            <Flex
+              bg="white"
+              w="65%"
+              justify="center"
+              align="flex-start"
+              p="12"
+              my="5"
+              color="black"
+              borderRadius="10"
+            >
+              <Box>
+                <VStack mb="8">
+                  <Text fontSize="3xl" fontWeight="bold">
+                    Alunos
+                  </Text>
+                  {turma.alunos.map((aluno) => (
+                    <Box id={aluno.id}>
+                      <Text fontWeight="regular">
+                        {aluno.nome} - {aluno.matricula}
+                      </Text>
+                    </Box>
+                  ))}
+                </VStack>
+                <Button
+                  color="white"
+                  type="button"
+                  colorScheme="purple"
+                  size="lg"
+                >
+                  Expulsar aluno
+                </Button>
+              </Box>
+            </Flex>
           </Flex>
         </Flex>
         <Flex flexDir="column" w="100%" justify="center" maxW="50vw">
@@ -193,7 +204,7 @@ function Turma({ turma, user, dispatch }) {
                 <NavLink
                   icon={null}
                   w="100%"
-                  href={`/turma/avaliacao/${router.query.id}/criar`}
+                  href={`/turma/avaliacao/criar/${router.query.id}`}
                   size="lg"
                   bg="white.900"
                   color="purple.800"

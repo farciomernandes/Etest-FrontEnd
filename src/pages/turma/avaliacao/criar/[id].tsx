@@ -108,29 +108,6 @@ function CriarAvaliacao({ dispatch, user }) {
               >
                 Criar Avaliacao
               </Text>
-              <HStack spacing="8">
-                <NavLink
-                  icon={null}
-                  href="/banco"
-                  color="white"
-                  h="45"
-                  size="lg"
-                  colorScheme="green"
-                  type="submit"
-                >
-                  Buscar no banco de questões
-                </NavLink>
-                <NavLink
-                  icon={null}
-                  href="/banco/adicionar"
-                  color="purple.800"
-                  h="45"
-                  size="lg"
-                  colorScheme="gray"
-                >
-                  Adicionar nova questão
-                </NavLink>
-              </HStack>
             </VStack>
           </Flex>
 
@@ -165,6 +142,7 @@ function CriarAvaliacao({ dispatch, user }) {
             size="lg"
             colorScheme="red"
             type="submit"
+            mt="4"
           >
             Criar Avaliação
           </Button>

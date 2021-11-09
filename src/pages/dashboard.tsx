@@ -59,7 +59,7 @@ function Dashboard({ user }) {
 
               <NavLink
                 icon={null}
-                href="/"
+                href="/professor/avaliacoes/lista"
                 bg="#38A169"
                 color="white"
                 type="submit"

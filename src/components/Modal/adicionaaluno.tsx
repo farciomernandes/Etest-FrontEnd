@@ -43,7 +43,7 @@ const AdicionarAluno = ({ user }) => {
   const handleCriar = useMutation(async (form: adicionaraluno) => {
     try {
       await api.post(
-        `/turma`,
+        `/turma/adicionar`,
         { matricula: form.matricula, idTurma: query.id },
         {
           headers: {

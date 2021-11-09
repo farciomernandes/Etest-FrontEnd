@@ -13,8 +13,8 @@ import {
 import { useRouter } from "next/router";
 
 import { connect } from "react-redux";
-import { Header } from "../../../../components/Header";
-import ReportarQuestao from "../../../../components/Modal/reportar";
+import { Header } from "../../../components/Header";
+import ReportarQuestao from "../../../components/Modal/reportar";
 
 function Avaliacao({ user, dispatch, avaliacao }) {
   const router = useRouter();
@@ -25,8 +25,13 @@ function Avaliacao({ user, dispatch, avaliacao }) {
 
   function nextQuestion() {
     const nextQuestion = atual + 1;
-    setAtual(nextQuestion);
-    setQuestoes(avaliacao.questoes[atual]);
+    if (nextQuestion >= avaliacao.questoes.length) {
+      alert("Prova finalizada. Aguarde a correção do professor!");
+      router.push("/dashboard");
+    } else {
+      setAtual(nextQuestion);
+      setQuestoes(avaliacao.questoes[atual]);
+    }
   }
 
   return (
