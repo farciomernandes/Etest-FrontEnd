@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ChakraProvider theme={theme}>
           <PersistGate persistor={persistor}>
             <Component {...pageProps} />
-            <Footer />
           </PersistGate>
         </ChakraProvider>
       </QueryClientProvider>

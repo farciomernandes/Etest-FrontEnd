@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { connect } from "react-redux";
 
-import dashboardImg from "../assets/images/dashboardIMG.svg";
+import dashboardImg from "../assets/images/dashboard2.png";
 import { Header } from "../components/Header";
 import TurmasModal from "../components/Modal/turmas";
 import EditarModal from "../components/Modal/editar";
@@ -26,26 +26,49 @@ function Dashboard({ user }) {
   });
 
   return (
-    <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
+    <Flex
+      direction="column"
+      h="100vh"
+      maxWidth={1480}
+      w={["250%", "100%"]}
+      mx="auto"
+      px={["1", "6"]}
+    >
       <Head>
         <title>Dashboard | E-test</title>
       </Head>
       <Header />
 
-      <Flex w="100%" my="6" justify="space-around" align="center">
-        <Flex mr="auto" mt="20" flexDir="column" maxWidth={720}>
-          <Text fontSize="7xl">
+      <Flex
+        w="100%"
+        my={["0", "6"]}
+        justify={["center", "space-around"]}
+        align="center"
+        direction={["column", "row"]}
+      >
+        <Flex
+          mr={["0", "auto"]}
+          mt={["250", "20"]}
+          flexDir="column"
+          maxWidth={720}
+          w={["100%", "100%"]}
+          justify="flex-start"
+          align="start"
+        >
+          <Text fontSize={["5.5em", "7xl"]} whiteSpace="nowrap">
             Bem vindo ao E-test,
-            <Text fontWeight="bold">{user.usuario.nome}</Text>
+            <Text fontWeight="bold" whiteSpace="nowrap">
+              {user.usuario.nome}
+            </Text>
           </Text>
 
-          <Text mt="5" fontWeight="regular">
+          <Text mt={["0", "5"]} fontWeight="regular" fontSize={["32px", "lg"]}>
             Entre nas suas turmas e veja todos os comentários feitos pelos
             professores, confira já suas notas através do boletim, veja suas
             avaliações respondidas
           </Text>
 
-          <Text mt="5" fontWeight="bold">
+          <Text mt="5" fontWeight="bold" fontSize={["32px", "lg"]}>
             E-test é primeiro aplicativo desenvolvido no IFPB - Cajazeiras com
             objetivo de axíliar os professores totalmente por alunos.
           </Text>
@@ -72,7 +95,7 @@ function Dashboard({ user }) {
               </NavLink>
             </VStack>
 
-            <VStack spacing="8">
+            <VStack spacing="8" ml="4">
               <NavLink
                 icon={null}
                 href="/aluno/boletim"
@@ -91,9 +114,17 @@ function Dashboard({ user }) {
             </VStack>
           </Flex>
         </Flex>
-        <Flex>
-          <Box position="absolute" right="0" top="20">
-            {/**<Image src={dashboardImg} width={900} height={900} /> */}
+        <Flex
+          w={["110%", "100%"]}
+          justify={["flex-end", "center"]}
+          align="center"
+        >
+          <Box
+            position={["relative", "absolute"]}
+            right={[, "0"]}
+            top={["0", "220"]}
+          >
+            {<Image src={dashboardImg} width={700} height={700} />}
           </Box>
         </Flex>
       </Flex>

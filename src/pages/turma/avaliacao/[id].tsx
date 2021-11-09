@@ -41,7 +41,7 @@ function Avaliacao({ user, dispatch, avaliacao }) {
       <Flex w="100%" justify="center" align="center" mt="5">
         <Flex flexDir="column">
           <Flex flexDir="column" align="center" mb="12">
-            <Text fontSize="lg">1fessor Marcone Tavares</Text>
+            <Text fontSize="lg">Professor Marcone Tavares</Text>
             <Text fontWeight="bold" fontSize="2xl">
               Prova de Algorítmos
             </Text>
