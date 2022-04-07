@@ -20,18 +20,14 @@ import { NavLink } from "../../components/NavLink";
 import { useQuery } from "react-query";
 import { api } from "../../services/api";
 
-function ListarBanco({ user }) {
+function ListarBanco() {
   const router = useRouter();
 
   const [questoes, setQuestoes] = useState([]);
 
   useEffect(() => {
     async function loadingQuestoes() {
-      const response = await api.get("/questao", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await api.get("/questao");
       const data = response.data;
 
       setQuestoes(data);
@@ -227,9 +223,4 @@ function ListarBanco({ user }) {
     </Flex>
   );
 }
-
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
-
-export default connect(mapStateToProps)(ListarBanco);
+export default ListarBanco;

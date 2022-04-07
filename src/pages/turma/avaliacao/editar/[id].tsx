@@ -12,7 +12,6 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useQuery } from "react-query";
 import { api } from "../../../../services/api";
 import { Header } from "../../../../components/Header";
@@ -44,11 +43,7 @@ function EditarAvaliacao({ user }) {
 
   const { data, isLoading, error } = useQuery("avaliacao", async () => {
     const id = router.query.id;
-    const response = await api.get(`/avaliacao/${id}`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await api.get(`/avaliacao/${id}`);
     const data = response.data;
     setQuestoes(data.questoes);
     return data;
@@ -182,8 +177,4 @@ function EditarAvaliacao({ user }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
-
-export default connect(mapStateToProps)(EditarAvaliacao);
+export default EditarAvaliacao;

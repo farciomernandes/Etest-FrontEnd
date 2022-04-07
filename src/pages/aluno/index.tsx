@@ -11,16 +11,15 @@ import * as yup from "yup";
 import { useMutation } from "react-query";
 
 import logoImg from "../../assets/images/logo.svg";
-import { api } from "../../services/api";
-
-import { connect } from "react-redux";
-
-import { useEffect } from "react";
 
 import { useRouter } from "next/dist/client/router";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
-function Login(props) {
+function Login() {
   const router = useRouter();
+  const { signIn } = useContext(AuthContext);
+
 
   type LoginUser = {
     matricula: string;
@@ -36,23 +35,11 @@ function Login(props) {
   });
 
   const loginUser = useMutation(async (form: LoginUser) => {
-    const { dispatch } = props;
-    let response;
     try {
-      response = await api.post("/autenticacao", form);
-      const { data } = response;
+      await signIn(form);
 
-      dispatch({
-        type: "SIGN_IN_SUCCESS",
-        payload: data,
-      });
-
-      router.push("/dashboard");
     } catch (error) {
-      dispatch({
-        type: "SIGN_IN_FAILURE",
-        payload: error.message,
-      });
+     
       alert("Erro ao realizar login, tente novamente!");
     }
   });
@@ -135,4 +122,4 @@ function Login(props) {
   );
 }
 
-export default connect()(Login);
+export default Login;

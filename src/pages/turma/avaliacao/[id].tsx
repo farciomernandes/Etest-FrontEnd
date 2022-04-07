@@ -12,12 +12,20 @@ import {
 
 import { useRouter } from "next/router";
 
-import { connect } from "react-redux";
 import { Header } from "../../../components/Header";
 import ReportarQuestao from "../../../components/Modal/reportar";
 
-function Avaliacao({ user, dispatch, avaliacao }) {
+function Avaliacao() {
   const router = useRouter();
+  const [avaliacao, setAvaliacao] = useState({
+    questoes: [{
+      descricao: '',
+      alternativa1: '',
+      alternativa2: '',
+      alternativa3: '',
+      alternativa4: '',
+    }]
+  });
 
   const [resposta, setResposta] = useState("");
   const [atual, setAtual] = useState(0);
@@ -123,20 +131,8 @@ function Avaliacao({ user, dispatch, avaliacao }) {
           </VStack>
         </Flex>
       </Flex>
-
-      <Flex as="footer" position="fixed" bottom="0" left="30%">
-        <Text>
-          Copyright ©2021 All rights reserved | This template is made with by
-          Marcio Fernandes and Henrique Benício
-        </Text>
-      </Flex>
     </Flex>
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-  avaliacao: state.avaliacao.avaliacao,
-});
-
-export default connect(mapStateToProps)(Avaliacao);
+export default Avaliacao;

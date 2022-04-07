@@ -22,7 +22,7 @@ export function Header() {
           </ActiveLink>
         </Flex>
         <HStack spacing="8" fontWeight="bold" ml="auto">
-          <ActiveLink href={`/turma/avaliacao/:id/criar`} passHref>
+          <ActiveLink href={`/turma/avaliacao`} passHref>
             <Text cursor="pointer">Avaliações</Text>
           </ActiveLink>
           <ActiveLink href={"/aluno/boletim"} passHref>
@@ -31,6 +31,7 @@ export function Header() {
           <ActiveLink href="/banco" passHref>
             <Text cursor="pointer">Banco de Questões</Text>
           </ActiveLink>
+            <Text onClick={()=> window.alert('SAIR')} cursor="pointer">Sair</Text>
           <Avatar
             size="lg"
             name="Marcio Fernandes"

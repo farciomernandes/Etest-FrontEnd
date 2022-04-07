@@ -13,10 +13,9 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { connect } from "react-redux";
 import { Header } from "../../components/Header";
 
-function Boletim({ user }) {
+function Boletim() {
   const router = useRouter();
 
   return (
@@ -218,8 +217,5 @@ function Boletim({ user }) {
     </Flex>
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(Boletim);
+export default Boletim;

@@ -3,18 +3,17 @@ import Link from "next/link";
 import Head from "next/head";
 
 import Image from "next/image";
-import { useEffect } from "react";
 
 import logoImg from "../assets/images/logo2.svg";
 
 import { VscSignOut } from "react-icons/vsc";
 import { NavLink } from "../components/NavLink";
 
-import { connect } from "react-redux";
-
 import { useRouter } from "next/dist/client/router";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-function Home({ user }) {
+function Home() {
   const router = useRouter();
 
   return (
@@ -34,8 +33,6 @@ function Home({ user }) {
           <Stack
             spacing={["2", "-10"]}
             maxWidth={720}
-            border="1px"
-            borderColor="red"
             display={["none", "flex"]}
           >
             <Text fontSize={"8xl"}>E-test</Text>
@@ -44,7 +41,7 @@ function Home({ user }) {
               em Cursos EaD
             </Text>
           </Stack>
-          <Text maxWidth={720} border="1px" display={["none", "flex"]}>
+          <Text maxWidth={720} display={["none", "flex"]}>
             O E-test é uma ferramenta desenvolvida com o intuito de melhorar o
             processo de ensino-aprendizagem. Usada principalmente por
             professores, seu objetivo é facilitar o desenvolvimento e aplicação
@@ -118,8 +115,21 @@ function Home({ user }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
+export default Home;
 
-export default connect(mapStateToProps)(Home);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["authToken.etest"]: token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

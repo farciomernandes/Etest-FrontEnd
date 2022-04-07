@@ -1,8 +1,6 @@
 import { Box, Spinner, Flex, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 
-import { connect } from "react-redux";
-
 import dashboardImg from "../assets/images/dashboard2.png";
 import { Header } from "../components/Header";
 import TurmasModal from "../components/Modal/turmas";
@@ -12,18 +10,13 @@ import { useQuery } from "react-query";
 import { api } from "../services/api";
 import Head from "next/head";
 
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-function Dashboard({ user }) {
-  const router = useRouter();
-
-  const { data, isLoading, error } = useQuery("turmas", async () => {
-    const response = await api.get("/turmas");
-    const data = response.data;
-
-    return data;
-  });
+function Dashboard() {
+  const { user } = useContext(AuthContext);
 
   return (
     <Flex
@@ -58,7 +51,7 @@ function Dashboard({ user }) {
           <Text fontSize={["5.5em", "7xl"]} whiteSpace="nowrap">
             Bem vindo ao E-test,
             <Text fontWeight="bold" whiteSpace="nowrap">
-              {user.usuario.nome}
+              {user ? user.nome : ""}
             </Text>
           </Text>
 
@@ -75,10 +68,7 @@ function Dashboard({ user }) {
 
           <Flex align="center" justify="space-between" mt="12">
             <VStack spacing="8">
-              <TurmasModal
-                turmas={user.usuario.turmas}
-                role={user.usuario.roles ? user.usuario.roles : null}
-              />
+              {user ? <TurmasModal turmas={user.turmas} /> : <Spinner />}
 
               <NavLink
                 icon={null}
@@ -109,8 +99,10 @@ function Dashboard({ user }) {
               >
                 Meu Boletim
               </NavLink>
+              {/**
+               */}
 
-              <EditarModal user={user} />
+              {user ? <EditarModal /> : <Spinner />}
             </VStack>
           </Flex>
         </Flex>
@@ -132,8 +124,21 @@ function Dashboard({ user }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
+export default Dashboard;
 
-export default connect(mapStateToProps)(Dashboard);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["authToken.etest"]: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

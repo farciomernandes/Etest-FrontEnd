@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import { useState } from "react";
 import {
   Avatar,
   Box,
@@ -17,29 +18,35 @@ import { NavLink } from "../../components/NavLink";
 
 import { FiTrash } from "react-icons/fi";
 
-import { connect } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Header } from "../../components/Header";
 import { api } from "../../services/api";
 import AdicionarComentario from "../../components/Modal/Form/comentario";
 import AdicionarAluno from "../../components/Modal/adicionaaluno";
+import { TurmaDTO, UserDTO } from '../../types';
 
-function Turma({ turma, user, dispatch }) {
+
+function Turma() {
+  
   const router = useRouter();
+  const [turma, setTurma] = useState<TurmaDTO>();
+  const [user, setUser] = useState<UserDTO>();
+
 
   const handleDeletar = async (idComentario) => {
     try {
+      /*
+       * Enviar iniformacoes que pede 
       await api.delete("/comentario", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
         data: {
           idUsuario: user.usuario.id,
           idTurma: turma.id,
           idComentario: idComentario,
         },
       });
+       */
+
       router.push("/dashboard");
     } catch (error) {
       alert("Erro ao deletar comentário, tente novamente!");
@@ -48,21 +55,21 @@ function Turma({ turma, user, dispatch }) {
 
   async function searchAvaliacao(id) {
     try {
-      const response = await api.get(`/avaliacao/${router.query.id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await api.get(`/avaliacao/${router.query.id}`);
+      /* SALVAR DO JEITO CERTO
       dispatch({
         type: "AVALIACAO_SUCCESS",
         payload: response.data,
       });
+       */
       router.push(`/turma/avaliacao/${router.query.id}`);
     } catch (error) {
+      /**TOAST DE ERRO
       dispatch({
         type: "AVALIACAO_FAILURE",
         payload: error,
       });
+       */
       alert("Erro ao buscar turma, tente novamente!");
     }
   }
@@ -105,7 +112,7 @@ function Turma({ turma, user, dispatch }) {
                           )}
                         </Text>
                       </VStack>
-                      {user.usuario.roles != null ? (
+                      {user.roles != null ? (
                         <HStack>
                           <NavLink
                             icon={null}
@@ -198,7 +205,7 @@ function Turma({ turma, user, dispatch }) {
               </Text>
             </Flex>
 
-            {user.usuario.roles && (
+            {user.roles && (
               <HStack>
                 <AdicionarAluno />
                 <NavLink
@@ -237,13 +244,14 @@ function Turma({ turma, user, dispatch }) {
                         {turma.nomeProfessor}
                       </Text>
                     </Flex>
-                    {user.usuario.roles && (
+                    {user.roles && (
                       <>
                         <Icon
                           onClick={() => handleDeletar(comentario.id)}
                           as={FiTrash}
                           color="red"
                           fontSize="20"
+                          cursor="pointer"
                         />{" "}
                       </>
                     )}
@@ -258,7 +266,7 @@ function Turma({ turma, user, dispatch }) {
               </Box>
             )}
 
-            {user.usuario.roles && (
+            {user.roles && (
               <>
                 <AdicionarComentario turmaId={turma.id} />
               </>
@@ -270,9 +278,4 @@ function Turma({ turma, user, dispatch }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  turma: state.turma.turma,
-  user: state.user.user,
-});
-
-export default connect(mapStateToProps)(Turma);
+export default Turma;

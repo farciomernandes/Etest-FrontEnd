@@ -4,12 +4,10 @@ import { Header } from '../../../components/Header';
 import { NavLink } from '../../../components/NavLink';
 
 import Head from "next/head";
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 
-function ListarAvaliacaoes({ user }) {
+function ListarAvaliacaoes() {
 
     const router = useRouter();
 
@@ -158,8 +156,5 @@ function ListarAvaliacaoes({ user }) {
     )
 }
 
-const mapStateToProps = (state) => ({
-    user: state.user.user,
-  });
-  
-export default connect(mapStateToProps)(ListarAvaliacaoes);
+
+export default ListarAvaliacaoes;

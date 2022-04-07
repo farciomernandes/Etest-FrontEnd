@@ -21,7 +21,6 @@ import { Input } from "../../components/Form/input";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
-import { connect } from "react-redux";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,7 +29,7 @@ import { useMutation } from "react-query";
 import { api } from "../../services/api";
 import { Header } from "../../components/Header";
 
-function AdicionarQuestao({ dispatch, user }) {
+function AdicionarQuestao() {
   const [disciplina, setDisciplina] = useState("Disciplina");
   const [unidade, setUnidade] = useState("Unidade");
   const [assunto, setAssunto] = useState("Assunto");
@@ -71,21 +70,18 @@ function AdicionarQuestao({ dispatch, user }) {
           unidade,
           assunto,
           nivel: dificuldade,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
         }
       );
 
       alert("Questão adicionada com sucesso!");
       router.push(`/dashboard`);
     } catch (error) {
+      /**
       dispatch({
         type: "SIGN_IN_FAILURE",
         payload: error,
       });
+       */
       alert("Erro ao adicionar questão, tente novamente!");
     }
   });
@@ -259,8 +255,5 @@ function AdicionarQuestao({ dispatch, user }) {
     </Flex>
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(AdicionarQuestao);
+export default AdicionarQuestao;

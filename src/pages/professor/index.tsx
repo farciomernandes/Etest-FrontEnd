@@ -13,19 +13,17 @@ import { useMutation } from "react-query";
 import logoImg from "../../assets/images/logo.svg";
 import { api } from "../../services/api";
 
-import { useEffect } from "react";
-
-import { connect } from "react-redux";
 
 import { useRouter } from "next/dist/client/router";
+import { LoginUser } from "../../types";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-function Login(props) {
+function Login() {
   const router = useRouter();
-
-  type LoginUser = {
-    matricula: string;
-    senha: string;
-  };
+  const { signIn } = useContext(AuthContext);
 
   const loginProfessorFormSchema = yup.object().shape({
     matricula: yup.string().required("Matrícula obrigatória"),
@@ -36,23 +34,9 @@ function Login(props) {
   });
 
   const loginUser = useMutation(async (form: LoginUser) => {
-    const { dispatch } = props;
-    let response;
     try {
-      response = await api.post("/autenticacao", form);
-      const { data } = response;
-
-      dispatch({
-        type: "SIGN_IN_SUCCESS",
-        payload: data,
-      });
-
-      router.push("/dashboard");
+      await signIn(form);
     } catch (error) {
-      dispatch({
-        type: "SIGN_IN_FAILURE",
-        payload: error.message,
-      });
       alert(error.message);
     }
   });
@@ -68,11 +52,11 @@ function Login(props) {
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
       <Head>
-        <title>Login Professor | E-test</title>
+        <title>Login Professor | E-Test</title>
       </Head>
 
       <Box
-        as="form"
+      as="form"
         w="100%"
         maxWidth={520}
         bg="white.900"
@@ -135,8 +119,21 @@ function Login(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(Login);
+export default Login;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["authToken.etest"]: token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

@@ -14,8 +14,6 @@ import { Input } from "../../../../components/Form/input";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
-import { connect } from "react-redux";
-
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -151,8 +149,5 @@ function CriarAvaliacao({ dispatch, user }) {
     </Flex>
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(CriarAvaliacao);
+export default CriarAvaliacao;

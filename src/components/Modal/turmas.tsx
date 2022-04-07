@@ -20,38 +20,21 @@ import { VscSignOut } from "react-icons/vsc";
 
 import { useRouter } from "next/dist/client/router";
 import { api } from "../../services/api";
-import { connect } from "react-redux";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { TurmaDTO } from "../../types";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-type Turma = {
-  id: number;
-  nome: string;
-  avisos: string;
-  professor: string;
-  alunos: string[];
-  avaliacoes: string[];
-};
-
-function TurmasModal({ turmas, user, role, dispatch }) {
+function TurmasModal({ turmas }) {
+  const { user } = useContext(AuthContext);
   const router = useRouter();
 
   async function searchTurma(id) {
     try {
-      const response = await api.get(`/turma/${id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-
-      dispatch({
-        type: "SEARCH_SUCCESS",
-        payload: response.data,
-      });
+      const response = await api.get(`/turma/${id}`);
       router.push(`turma/${id}`);
     } catch (error) {
-      dispatch({
-        type: "SEARCH_FAILURE",
-        payload: error,
-      });
       alert("Erro ao buscar turma, tente novamente!");
     }
   }
@@ -75,7 +58,6 @@ function TurmasModal({ turmas, user, role, dispatch }) {
       >
         Minhas turmas
       </Button>
-
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="purple.500" maxWidth={720} mt="20vh" p="20">
@@ -86,7 +68,7 @@ function TurmasModal({ turmas, user, role, dispatch }) {
           <VStack>
             <ModalBody>
               <VStack spacing="4">
-                {turmas.map((turma: Turma) => (
+                {turmas.map((turma: TurmaDTO) => (
                   <Flex
                     justify="center"
                     align="center"
@@ -119,7 +101,7 @@ function TurmasModal({ turmas, user, role, dispatch }) {
                     <Divider mt="2" />
                   </Flex>
                 ))}
-                {role && (
+                {user.roles && (
                   <Button
                     w="100%"
                     type="button"
@@ -146,8 +128,5 @@ function TurmasModal({ turmas, user, role, dispatch }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(TurmasModal);
+export default TurmasModal;

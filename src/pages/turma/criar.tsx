@@ -6,15 +6,16 @@ import { Input } from "../../components/Form/input";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
-import { connect } from "react-redux";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
+import { parseCookies } from "nookies";
+import { GetServerSideProps } from "next";
 
-function CriarTurma({ dispatch, user }) {
+function CriarTurma() {
   const [tipo, setTipo] = useState("");
 
   const router = useRouter();
@@ -33,14 +34,12 @@ function CriarTurma({ dispatch, user }) {
 
   const handleCriar = useMutation(async (form: criarTurma) => {
     try {
+      /**
+       * Adicionar token automatico
+       
       await api.post(
         `/turma`,
-        { matricula: form.matricula, nome: form.nome },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        { matricula: form.matricula, nome: form.nome }
       );
 
       const response = await api.post("/autenticacao", {
@@ -53,13 +52,15 @@ function CriarTurma({ dispatch, user }) {
         type: "SIGN_IN_SUCCESS",
         payload: data,
       });
-
+      */
       router.push(`/dashboard`);
     } catch (error) {
+      /* Toast de erro
       dispatch({
         type: "SIGN_IN_FAILURE",
         payload: error,
       });
+      */
       alert("Erro ao criar turma, tente novamente!");
     }
   });
@@ -152,8 +153,22 @@ function CriarTurma({ dispatch, user }) {
     </Flex>
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(CriarTurma);
+export default CriarTurma;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["authToken.etest"]: token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

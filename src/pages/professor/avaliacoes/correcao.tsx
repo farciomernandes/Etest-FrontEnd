@@ -5,12 +5,10 @@ import { Header } from '../../../components/Header';
 import { NavLink } from '../../../components/NavLink';
 import Head from "next/head";
 
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
 
-function CorrigirAvaliacaoes( { user }) {
+function CorrigirAvaliacaoes() {
 
     const router = useRouter();
 
@@ -96,8 +94,5 @@ function CorrigirAvaliacaoes( { user }) {
         </Flex>
     )
 }
-const mapStateToProps = (state) => ({
-    user: state.user.user,
-  });
-  
-export default connect(mapStateToProps)(CorrigirAvaliacaoes);
+
+export default CorrigirAvaliacaoes;

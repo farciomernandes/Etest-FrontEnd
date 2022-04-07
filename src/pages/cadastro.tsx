@@ -13,15 +13,16 @@ import RadioCard from "../components/RadioCard";
 import { useRouter } from "next/router";
 
 import { useState } from "react";
-import { connect } from "react-redux";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../services/api";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
-function Cadastro(props) {
+function Cadastro() {
   const [tipo, setTipo] = useState("");
 
   const options = ["Professor", "Aluno"];
@@ -61,23 +62,28 @@ function Cadastro(props) {
   });
 
   const signUpUser = useMutation(async (form: SignUpUser) => {
-    const { dispatch } = props;
     let response;
     try {
       response = await api.post("/user", { ...form, tipo });
       const { data } = response;
 
+      /* salvar usuario em service para cookie
       dispatch({
         type: "SIGN_IN_SUCCESS",
         payload: data,
       });
+      */
+
       alert("Cadastrado com sucesso, faça login!");
       router.push("/");
     } catch (error) {
+
+      /* chamar toast com erro
       dispatch({
         type: "SIGN_UP_FAILURE",
         payload: error.message,
       });
+      */
       alert(error.message);
     }
   });
@@ -192,8 +198,22 @@ function Cadastro(props) {
     </Flex>
   );
 }
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(Cadastro);
+export default Cadastro;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["authToken.etest"]: token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

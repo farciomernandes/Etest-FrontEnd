@@ -2,20 +2,16 @@ import { Avatar, Button, Divider, Flex, HStack, Icon, Modal, ModalBody, ModalClo
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from 'react-icons/ri';
 
-import { connect } from 'react-redux';
-
-
 import EditarNome from './Form/nome';
 import EditarEmail from './Form/email';
 import EditarSenha from './Form/senha';
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
-
-
-
-const EditarModal = (props) => {
+const EditarModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const { user } = props;
+    const { user } = useContext(AuthContext);
 
     return (
         <>
@@ -38,7 +34,7 @@ const EditarModal = (props) => {
                         spacing="6"
                     >
                         <Avatar size="lg" name='Marcio Fernandes' src='' />
-                        <Text fontSize="lg">{user.name}</Text>
+                        <Text fontSize="lg">{user.nome}</Text>
                     </VStack>
                     <VStack>
 
@@ -70,5 +66,5 @@ const EditarModal = (props) => {
 
 
 
-export default connect()(EditarModal);
+export default EditarModal;
 
