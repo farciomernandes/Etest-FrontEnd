@@ -5,55 +5,43 @@ import { Input } from "../../components/Form/input";
 
 import { useRouter } from "next/router";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { api } from "../../services/api";
 import { parseCookies } from "nookies";
 import { GetServerSideProps } from "next";
+import { Header } from "../../components/Header";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function CriarTurma() {
   const [tipo, setTipo] = useState("");
+  const { user } = useContext(AuthContext);
+
 
   const router = useRouter();
 
   type criarTurma = {
     matricula: string;
     nome: string;
-    senha: string;
   };
 
   const criarTurmaFormSchema = yup.object().shape({
     matricula: yup.string().required("Nº de Matrícula obrigatória"),
     nome: yup.string().required("Nome da turma obrigatório"),
-    senha: yup.string().required("Senha obrigatória"),
   });
 
   const handleCriar = useMutation(async (form: criarTurma) => {
     try {
-      /**
-       * Adicionar token automatico
-       
-      await api.post(
+      const response = await api.post(
         `/turma`,
         { matricula: form.matricula, nome: form.nome }
       );
 
-      const response = await api.post("/autenticacao", {
-        matricula: form.matricula,
-        senha: form.senha,
-      });
-      const { data } = response;
-
-      dispatch({
-        type: "SIGN_IN_SUCCESS",
-        payload: data,
-      });
-      */
-      router.push(`/dashboard`);
+      router.push(`/turma/${response.data.id}`);
     } catch (error) {
       /* Toast de erro
       dispatch({
@@ -78,18 +66,20 @@ function CriarTurma() {
       w="100vw"
       h="100vh"
       align="center"
-      justify="center"
       direction="column"
     >
       <Head>
         <title>Criar Turma | E-test</title>
       </Head>
+      
+        <Header />
       <Flex
         w="100%"
         maxWidth={850}
         bg="white.900"
         p="50"
         py="100"
+        mt="8"
         borderRadius={15}
         flexDirection="column"
       >
@@ -115,14 +105,6 @@ function CriarTurma() {
               {...register("matricula")}
               type="text"
               placeholder="Nº Matricula do Professor"
-            />
-
-            <Input
-              name="senha"
-              error={formState.errors.senha}
-              {...register("senha")}
-              type="password"
-              placeholder="Senha do usuário"
             />
 
             <Input
@@ -159,10 +141,10 @@ export default CriarTurma;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ["authToken.etest"]: token } = parseCookies(ctx);
 
-  if (token) {
+  if (!token) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: "/",
         permanent: false,
       },
     };

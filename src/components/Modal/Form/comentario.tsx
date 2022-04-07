@@ -14,19 +14,22 @@ import {
 } from "@chakra-ui/react";
 import { api } from "../../../services/api";
 
-import { useState } from "react";
-import { connect } from "react-redux";
+import { useContext, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useMutation } from "react-query";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { AuthContext } from "../../../contexts/AuthContext";
 
-const AdicionarComentario = ({ turmaId, user }) => {
-  type Comentario = {
-    comentario: string;
-  };
+type Comentario = {
+  comentario: string;
+};
+
+
+const AdicionarComentario = ({ turmaId }) => {
+  const { user } = useContext(AuthContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -38,13 +41,7 @@ const AdicionarComentario = ({ turmaId, user }) => {
     try {
       await api.post(
         "/comentario",
-        { texto: form.comentario, idTurma: turmaId },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+        { texto: form.comentario, idTurma: turmaId });
 
       router.push("/dashboard");
     } catch (error) {
@@ -135,8 +132,4 @@ const AdicionarComentario = ({ turmaId, user }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
-
-export default connect(mapStateToProps)(AdicionarComentario);
+export default AdicionarComentario;

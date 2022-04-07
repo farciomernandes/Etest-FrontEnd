@@ -18,6 +18,13 @@ import { parseCookies } from "nookies";
 function Dashboard() {
   const { user } = useContext(AuthContext);
 
+  const { data, isLoading, error } = useQuery("turmas", async () => {
+    const response = await api.get("/turmas");
+    const data = response.data;
+
+    return data;
+  });
+
   return (
     <Flex
       direction="column"
@@ -99,9 +106,6 @@ function Dashboard() {
               >
                 Meu Boletim
               </NavLink>
-              {/**
-               */}
-
               {user ? <EditarModal /> : <Spinner />}
             </VStack>
           </Flex>

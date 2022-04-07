@@ -14,7 +14,6 @@ import {
   Text,
   useDisclosure,
   VStack,
-  Box,
 } from "@chakra-ui/react";
 import { VscSignOut } from "react-icons/vsc";
 
@@ -25,6 +24,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { TurmaDTO } from "../../types";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
+
+import Router from "next/router";
+
 
 function TurmasModal({ turmas }) {
   const { user } = useContext(AuthContext);
@@ -38,11 +40,6 @@ function TurmasModal({ turmas }) {
       alert("Erro ao buscar turma, tente novamente!");
     }
   }
-
-  async function handleCriarTurma() {
-    router.push(`turma/criar`);
-  }
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -105,7 +102,7 @@ function TurmasModal({ turmas }) {
                   <Button
                     w="100%"
                     type="button"
-                    onClick={handleCriarTurma}
+                    onClick={()=> Router.push("turma/criar")}
                     size="lg"
                     bg="white.900"
                     color="purple.800"

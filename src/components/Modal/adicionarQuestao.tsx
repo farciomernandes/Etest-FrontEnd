@@ -22,11 +22,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
-import { connect } from "react-redux";
 import { NavLink } from "../NavLink";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
-const AdicionarQuestao = ({ user, dispatch }) => {
+const AdicionarQuestao = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useContext(AuthContext);
+
 
   const router = useRouter();
   const { query } = useRouter();
@@ -44,25 +47,11 @@ const AdicionarQuestao = ({ user, dispatch }) => {
       const id = router.query.id;
       await api.post(
         `/avaliacao/adicionar`,
-        { idQuestao: form.idQuestao, idAvaliacao: id },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+        { idQuestao: form.idQuestao, idAvaliacao: id });
 
       alert("Adicionada com Sucesso!");
 
-      const response = await api.get(`/avaliacao/${router.query.id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      dispatch({
-        type: "AVALIACAO_SUCCESS",
-        payload: response.data,
-      });
+      const response = await api.get(`/avaliacao/${router.query.id}`);
 
       router.push(`/turma/avaliacao/editar/${query.id}`);
     } catch (error) {
@@ -169,8 +158,5 @@ const AdicionarQuestao = ({ user, dispatch }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
 
-export default connect(mapStateToProps)(AdicionarQuestao);
+export default AdicionarQuestao;
