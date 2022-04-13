@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text, Button, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { Input } from "../../components/Form/input";
@@ -11,8 +11,6 @@ import * as yup from "yup";
 import { useMutation } from "react-query";
 
 import logoImg from "../../assets/images/logo.svg";
-import { api } from "../../services/api";
-
 
 import { useRouter } from "next/dist/client/router";
 import { LoginUser } from "../../types";
@@ -22,6 +20,7 @@ import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 
 function Login() {
+  const toast = useToast();
   const router = useRouter();
   const { signIn } = useContext(AuthContext);
 
@@ -37,7 +36,13 @@ function Login() {
     try {
       await signIn(form);
     } catch (error) {
-      alert(error.message);
+      console.log('erro')
+      toast({
+        title: "Erro fazer login!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      })    
     }
   });
 
@@ -56,7 +61,7 @@ function Login() {
       </Head>
 
       <Box
-      as="form"
+        as="form"
         w="100%"
         maxWidth={520}
         bg="white.900"

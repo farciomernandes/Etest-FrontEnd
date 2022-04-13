@@ -1,12 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 import { api } from "../services/api";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { LoginUser, UserDTO } from "../types";
 import Router from "next/router";
 
 type AuthContextType = {
   isAuthenticated: boolean;
   signIn: (form: LoginUser) => Promise<void>;
+  signOut: () => void;
+  setUser: (user) => void;
   user: UserDTO;
 };
 
@@ -43,8 +45,18 @@ export function AuthProvider({ children }) {
 
     Router.push("/dashboard");
   }
+
+  function signOut(){
+    destroyCookie(undefined, "authToken.etest");
+
+    api.defaults.headers['Authorization'] = `Bearer`;
+
+    setUser(null);
+
+    Router.push("/");
+  }
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, user, signOut, setUser }}>
       {children}
     </AuthContext.Provider>
   );

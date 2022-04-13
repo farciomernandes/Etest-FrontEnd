@@ -2,8 +2,12 @@ import { Avatar, Flex, HStack, Text } from "@chakra-ui/react";
 import logoImg from "../assets/images/logo2.svg";
 import Image from "next/image";
 import { ActiveLink } from "./ActiveLink";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 export function Header() {
+  const { signOut } = useContext(AuthContext);
+
   return (
     <Flex
       as="header"
@@ -31,11 +35,11 @@ export function Header() {
           <ActiveLink href="/banco" passHref>
             <Text cursor="pointer">Banco de Questões</Text>
           </ActiveLink>
-            <Text onClick={()=> window.alert('SAIR')} cursor="pointer">Sair</Text>
+            <Text onClick={()=> signOut()} cursor="pointer">Sair</Text>
           <Avatar
             size="lg"
             name="Marcio Fernandes"
-            src="https://github.com/dasd.png"
+            src="https://github.com/farciomernandes.png"
           />
         </HStack>
       </Flex>

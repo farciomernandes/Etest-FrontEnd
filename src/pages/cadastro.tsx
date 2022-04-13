@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, Stack, Text, HStack, Box } from "@chakra-ui/react";
+import { Button, Flex, Icon, Stack, Text, HStack, Box, useToast } from "@chakra-ui/react";
 import { useRadioGroup } from "@chakra-ui/radio";
 import Link from "next/link";
 import Head from "next/head";
@@ -24,6 +24,8 @@ import { parseCookies } from "nookies";
 
 function Cadastro() {
   const [tipo, setTipo] = useState("");
+  const toast = useToast();
+
 
   const options = ["Professor", "Aluno"];
 
@@ -67,24 +69,20 @@ function Cadastro() {
       response = await api.post("/user", { ...form, tipo });
       const { data } = response;
 
-      /* salvar usuario em service para cookie
-      dispatch({
-        type: "SIGN_IN_SUCCESS",
-        payload: data,
-      });
-      */
-
-      alert("Cadastrado com sucesso, faça login!");
+      toast({
+        title: "Cadastrado com sucesso, faça login!",
+        status: "success",
+        isClosable: true,
+        position: 'top-right'
+      }) 
       router.push("/");
     } catch (error) {
-
-      /* chamar toast com erro
-      dispatch({
-        type: "SIGN_UP_FAILURE",
-        payload: error.message,
-      });
-      */
-      alert(error.message);
+      toast({
+        title: "Erro ao cadastrar, tente novamente!!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   });
 

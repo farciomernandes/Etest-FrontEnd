@@ -14,6 +14,7 @@ import {
   useDisclosure,
   VStack,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -24,15 +25,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { queryClient } from "../../services/queryCliente";
 
 const AdicionarAluno = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useContext(AuthContext);
+  const toast = useToast();
 
-
-  const router = useRouter();
   const { query } = useRouter();
 
   type adicionaraluno = {
@@ -49,14 +47,25 @@ const AdicionarAluno = () => {
         `/turma/adicionar`,
         { matricula: form.matricula, idTurma: query.id });
 
-    
-      router.push(`/dashboard`);
-    } catch (error) {
-      alert("Erro ao adicionar, tente novamente!");
+        queryClient.invalidateQueries("turma");
+        toast({
+          title: "Adicionado com sucesso!",
+          status: "success",
+          isClosable: true,
+          position: 'top-right'
+        }) 
+        reset();
+      } catch (error) {
+      toast({
+        title: "Erro ao adicionar, tente novamente!!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   });
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(adicionaralunoFormSchema),
   });
 

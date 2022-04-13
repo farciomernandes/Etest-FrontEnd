@@ -62,7 +62,7 @@ function Dashboard() {
             </Text>
           </Text>
 
-          <Text mt={["0", "5"]} fontWeight="regular" fontSize={["32px", "lg"]}>
+          <Text  mt={["0", "5"]} fontWeight="regular" fontSize={["32px", "lg"]} maxWidth={720}>
             Entre nas suas turmas e veja todos os comentários feitos pelos
             professores, confira já suas notas através do boletim, veja suas
             avaliações respondidas
@@ -70,7 +70,7 @@ function Dashboard() {
 
           <Text mt="5" fontWeight="bold" fontSize={["32px", "lg"]}>
             E-test é primeiro aplicativo desenvolvido no IFPB - Cajazeiras com
-            objetivo de axíliar os professores totalmente por alunos.
+            objetivo de auxíliar os professores, desenvolvido totalmente por um aluno.
           </Text>
 
           <Flex align="center" justify="space-between" mt="12">

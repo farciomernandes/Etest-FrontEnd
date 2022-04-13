@@ -6,6 +6,7 @@ import {
   HStack,
   Box,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
@@ -20,10 +21,12 @@ import * as yup from "yup";
 import { useMutation } from "react-query";
 import { api } from "../../../../services/api";
 import { Header } from "../../../../components/Header";
-import { NavLink } from "../../../../components/NavLink";
 
-function CriarAvaliacao({ dispatch, user }) {
+function CriarAvaliacao() {
   const [tipo, setTipo] = useState("");
+  const toast = useToast();
+
+
 
   const router = useRouter();
 
@@ -39,30 +42,28 @@ function CriarAvaliacao({ dispatch, user }) {
 
   const handleCriar = useMutation(async (form: criarAvaliacao) => {
     try {
-      console.log("OXE");
-      console.log(form);
       await api.post(
         `/avaliacao`,
         {
           dataProva: form.dataProva,
           nome: form.nome,
           turmaId: router.query.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
         }
       );
-
-      alert("Avaliação marcada com sucesso!");
+      toast({
+        title: "Avaliação marcada com sucesso!",
+        status: "success",
+        isClosable: true,
+        position: 'top-right'
+      }) 
       router.push(`/dashboard`);
     } catch (error) {
-      dispatch({
-        type: "SIGN_IN_FAILURE",
-        payload: error,
-      });
-      alert("Erro ao criar Avaliacao, tente novamente!");
+      toast({
+        title: "Erro ao criar Avaliacao, tente novamente!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   });
 

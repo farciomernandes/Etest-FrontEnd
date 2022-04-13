@@ -6,7 +6,6 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Text,
   useDisclosure,
@@ -22,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { AuthContext } from "../../../contexts/AuthContext";
-
+import { queryClient } from '../../../services/queryCliente';
 type Comentario = {
   comentario: string;
 };
@@ -42,9 +41,9 @@ const AdicionarComentario = ({ turmaId }) => {
       await api.post(
         "/comentario",
         { texto: form.comentario, idTurma: turmaId });
-
-      router.push("/dashboard");
-    } catch (error) {
+        queryClient.invalidateQueries("turma");
+        reset();
+      } catch (error) {
       alert("Erro ao fazer comentário, tente novamente!");
     }
   });
@@ -56,7 +55,7 @@ const AdicionarComentario = ({ turmaId }) => {
       .min(8, "No mínimo 8 caracteres"),
   });
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(comentarioFormSchema),
   });
 

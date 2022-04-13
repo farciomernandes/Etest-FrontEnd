@@ -19,33 +19,16 @@ import AdicionarQuestao from "../../../../components/Modal/adicionarQuestao";
 import { NavLink } from "../../../../components/NavLink";
 import BancoQuestaoModal from "../../../../components/Modal/bancoquestao";
 
-function EditarAvaliacao({ user }) {
+function EditarAvaliacao() {
   const router = useRouter();
 
   const [questoes, setQuestoes] = useState([]);
 
-  /**
-   * useEffect(() => {
-    async function loadingQuestoes() {
-      const response = await api.get(`/avaliacao/${router.query.id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = response.data;
-
-      setQuestoes(data);
-    }
-
-    loadingQuestoes();
-  }, [router.query.id]);
-   */
 
   const { data, isLoading, error } = useQuery("avaliacao", async () => {
     const id = router.query.id;
     const response = await api.get(`/avaliacao/${id}`);
     const data = response.data;
-    setQuestoes(data.questoes);
     return data;
   });
 

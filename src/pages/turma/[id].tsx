@@ -10,6 +10,7 @@ import {
   VStack,
   Button,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
@@ -27,10 +28,15 @@ import AdicionarComentario from "../../components/Modal/Form/comentario";
 import AdicionarAluno from "../../components/Modal/adicionaaluno";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { AuthContext } from "../../contexts/AuthContext";
 
+import { queryClient } from "../../services/queryCliente";
+
+import {  MdRemoveCircle  } from 'react-icons/md';
+
 function Turma() {
+  const toast = useToast()
   const router = useRouter();
   const { user } = useContext(AuthContext);
 
@@ -41,44 +47,66 @@ function Turma() {
     return data;
   });
 
-  const handleDeletar = async (idComentario) => {
+  const handleDeletar = useMutation(async (idComentario: String) => {
     try {
-      /*
-       * Enviar iniformacoes que pede 
       await api.delete("/comentario", {
         data: {
-          idUsuario: user.usuario.id,
-          idTurma: turma.id,
+          idUsuario: user.id,
+          idTurma: data.id,
           idComentario: idComentario,
         },
       });
-       */
-      router.push("/dashboard");
+      queryClient.invalidateQueries("turma");
     } catch (error) {
       alert("Erro ao deletar comentário, tente novamente!");
+      toast({
+        title: "Erro co deletar comentário!",
+        status: "error",
+        isClosable: true,
+      })
     }
+  });
+
+  const deletar = async (values) => {
+    await handleDeletar.mutateAsync(values);
   };
 
   async function searchAvaliacao(id) {
     try {
-      const response = await api.get(`/avaliacao/${router.query.id}`);
+      const response = await api.get(`/avaliacao/${id}`);
       /* SALVAR DO JEITO CERTO
       dispatch({
         type: "AVALIACAO_SUCCESS",
         payload: response.data,
       });
        */
-      router.push(`/turma/avaliacao/${router.query.id}`);
+      router.push(`/turma/avaliacao/${id}`);
     } catch (error) {
-      /**TOAST DE ERRO
-      dispatch({
-        type: "AVALIACAO_FAILURE",
-        payload: error,
-      });
-       */
-      alert("Erro ao buscar turma, tente novamente!");
+      toast({
+        title: "Erro ao buscar turma, tente novamente!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   }
+
+
+  const handleAtualizar = useMutation(async (alunoMatricula: String) => {
+    try {
+      await api.put(`/turma`,{
+        matricula:alunoMatricula,
+        idTurma: data.id
+      });
+      queryClient.invalidateQueries("turma");
+    } catch (error) {
+      alert("Erro ao expulsar aluno, tente novamente!");
+    }
+  });
+
+  const atualizar = async (values) => {
+    await handleAtualizar.mutateAsync(values);
+  };
 
   return (
     <Flex direction="column" h="100vh" maxWidth={1480} mx="auto" px="6">
@@ -120,13 +148,12 @@ function Turma() {
                             )}
                           </Text>
                         </VStack>
-                        {user?.roles ? 
-                        (
+                        {user?.roles ? (
                           <HStack>
                             <NavLink
                               icon={null}
                               w="100%"
-                              href={`/turma/avaliacao/editar/${router.query.id}`}
+                              href={`/turma/avaliacao/editar/${avaliacao.id}`}
                               size="lg"
                               bg="green.600"
                               color="white"
@@ -134,9 +161,7 @@ function Turma() {
                               Ver Prova
                             </NavLink>
                           </HStack>
-                        ) 
-                        : 
-                        (
+                        ) : (
                           <Button
                             icon={null}
                             bg="#38A169"
@@ -148,8 +173,7 @@ function Turma() {
                           >
                             Fazer prova
                           </Button>
-                        )
-                        }
+                        )}
                       </Box>
                     </Flex>
                   );
@@ -190,20 +214,26 @@ function Turma() {
                     </Text>
                     {data.alunos.map((aluno) => (
                       <Box id={aluno.id}>
+                        <HStack>
+
                         <Text fontWeight="regular">
                           {aluno.nome} - {aluno.matricula}
                         </Text>
+                        <Button
+                        color="white"
+                        type="button"
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => atualizar(aluno.matricula)}
+                      >
+                     <Icon color="white" as={MdRemoveCircle} fontSize="14" />
+                      </Button>
+                        </HStack>
+
                       </Box>
+                       
                     ))}
                   </VStack>
-                  <Button
-                    color="white"
-                    type="button"
-                    colorScheme="purple"
-                    size="lg"
-                  >
-                    Expulsar aluno
-                  </Button>
                 </Box>
               </Flex>
             </Flex>
@@ -217,8 +247,7 @@ function Turma() {
                 </Text>
               </Flex>
 
-              {user?.roles ?
-               (
+              {user?.roles ? (
                 <HStack>
                   <AdicionarAluno />
                   <NavLink
@@ -232,9 +261,7 @@ function Turma() {
                     Add Avaliação
                   </NavLink>
                 </HStack>
-              )
-            :
-            null}
+              ) : null}
             </Flex>
 
             <VStack bottom="8">
@@ -259,17 +286,17 @@ function Turma() {
                           {data.nomeProfessor}
                         </Text>
                       </Flex>
-                      {user.roles && (
+                      {user?.roles ? (
                         <>
                           <Icon
-                            onClick={() => handleDeletar(comentario.id)}
+                            onClick={() => deletar(comentario.id)}
                             as={FiTrash}
                             color="red"
                             fontSize="20"
                             cursor="pointer"
                           />{" "}
                         </>
-                      )}
+                      ) : null}
                     </HStack>
                   </Box>
                 ))
@@ -281,14 +308,11 @@ function Turma() {
                 </Box>
               )}
 
-              {user?.roles ?
-               (
+              {user?.roles ? (
                 <>
                   <AdicionarComentario turmaId={data.id} />
                 </>
-              )
-            :
-            null}
+              ) : null}
             </VStack>
           </Flex>
         </Flex>

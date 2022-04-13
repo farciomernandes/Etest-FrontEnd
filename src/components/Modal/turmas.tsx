@@ -13,23 +13,23 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { VscSignOut } from "react-icons/vsc";
+import {TiDeleteOutline} from "react-icons/ti"
 
 import { useRouter } from "next/dist/client/router";
 import { api } from "../../services/api";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { TurmaDTO } from "../../types";
-import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 
 import Router from "next/router";
 
-
 function TurmasModal({ turmas }) {
-  const { user } = useContext(AuthContext);
+  const toast = useToast();
+  const { user, setUser } = useContext(AuthContext);
   const router = useRouter();
 
   async function searchTurma(id) {
@@ -38,6 +38,30 @@ function TurmasModal({ turmas }) {
       router.push(`turma/${id}`);
     } catch (error) {
       alert("Erro ao buscar turma, tente novamente!");
+    }
+  }
+
+  async function deleteTurma(id) {
+    try {
+      await api.delete(`/turma/${id}`);
+      const updatedUser = {
+        ...user,
+        turmas: user.turmas.filter(turma=> turma.id != id)
+      }
+      setUser(updatedUser);
+      toast({
+        title: "Deletada com sucesso!",
+        status: "success",
+        isClosable: true,
+        position: 'top-right'
+      }) 
+    } catch (error) {
+      toast({
+        title: "Erro deletar turma!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   }
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -94,6 +118,15 @@ function TurmasModal({ turmas }) {
                       >
                         <Icon color="white" as={VscSignOut} fontSize="20" />
                       </Button>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        colorScheme="red"
+                        p="4"
+                        onClick={()=> deleteTurma(turma.id)}
+                      >
+                        <Icon color="white" as={TiDeleteOutline} fontSize="20" />
+                      </Button>
                     </HStack>
                     <Divider mt="2" />
                   </Flex>
@@ -102,7 +135,7 @@ function TurmasModal({ turmas }) {
                   <Button
                     w="100%"
                     type="button"
-                    onClick={()=> Router.push("turma/criar")}
+                    onClick={() => Router.push("turma/criar")}
                     size="lg"
                     bg="white.900"
                     color="purple.800"
@@ -124,6 +157,5 @@ function TurmasModal({ turmas }) {
     </>
   );
 }
-
 
 export default TurmasModal;

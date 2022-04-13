@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, Stack, Text, HStack, Box } from "@chakra-ui/react";
+import { Button, Flex, Icon, Stack, Text, HStack, Box, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { Input } from "../../components/Form/input";
@@ -16,12 +16,10 @@ import { parseCookies } from "nookies";
 import { GetServerSideProps } from "next";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/AuthContext";
+import { queryClient } from "../../services/queryCliente";
 
 function CriarTurma() {
-  const [tipo, setTipo] = useState("");
-  const { user } = useContext(AuthContext);
-
-
+  const toast = useToast();
   const router = useRouter();
 
   type criarTurma = {
@@ -40,16 +38,20 @@ function CriarTurma() {
         `/turma`,
         { matricula: form.matricula, nome: form.nome }
       );
-
+      toast({
+        title: "Turma criada com sucesso! Atualize sua página para ela aparecer na sua lista",
+        status: "success",
+        isClosable: true,
+        position: 'top-right'
+      }) 
       router.push(`/turma/${response.data.id}`);
     } catch (error) {
-      /* Toast de erro
-      dispatch({
-        type: "SIGN_IN_FAILURE",
-        payload: error,
-      });
-      */
-      alert("Erro ao criar turma, tente novamente!");
+      toast({
+        title: "Erro ao criar turma! Tente novamente",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   });
 

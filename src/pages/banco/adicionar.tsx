@@ -13,6 +13,8 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useToast,
+  FormLabel,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
@@ -30,10 +32,14 @@ import { api } from "../../services/api";
 import { Header } from "../../components/Header";
 
 function AdicionarQuestao() {
+  const toast = useToast();
+
   const [disciplina, setDisciplina] = useState("Disciplina");
   const [unidade, setUnidade] = useState("Unidade");
   const [assunto, setAssunto] = useState("Assunto");
   const [dificuldade, setDificuldade] = useState("Dificuldade");
+  const [correta, setCorreta] = useState("Correta");
+
 
   const router = useRouter();
 
@@ -56,33 +62,50 @@ function AdicionarQuestao() {
   });
 
   const handleCriar = useMutation(async (form: adicionarQuestao) => {
+    alert("entrou 2")
     try {
       await api.post(
         `/questao`,
         {
           descricao: form.descricao,
-          alternativa1: form.alternativa1,
-          alternativa2: form.alternativa2,
-          alternativa3: form.alternativa3,
-          alternativa4: form.alternativa4,
-          correta: form.correta,
+          alternativas: [
+            {
+              descricao: form.alternativa1,
+              correta: correta === "alternativa1" ? true : false
+            },
+            {
+              descricao: form.alternativa2,
+              correta: correta === "alternativa2" ? true : false
+            },
+            {
+              descricao: form.alternativa3,
+              correta: correta === "alternativa3" ? true : false
+            },
+            {
+              descricao: form.alternativa4,
+              correta: correta === "alternativa4" ? true : false
+            },
+          ],
           disciplina,
           unidade,
           assunto,
           nivel: dificuldade,
         }
       );
-
-      alert("Questão adicionada com sucesso!");
+      toast({
+        title: "Questão adicionada com sucesso!",
+        status: "success",
+        isClosable: true,
+        position: 'top-right'
+      }) 
       router.push(`/dashboard`);
     } catch (error) {
-      /**
-      dispatch({
-        type: "SIGN_IN_FAILURE",
-        payload: error,
-      });
-       */
-      alert("Erro ao adicionar questão, tente novamente!");
+      toast({
+        title: "Erro ao adicionar questão, tente novamente!",
+        status: "error",
+        isClosable: true,
+        position: 'top-right'
+      }) 
     }
   });
 
@@ -90,9 +113,7 @@ function AdicionarQuestao() {
     resolver: yupResolver(adicionarQuestaoFormSchema),
   });
 
-  const handleadicionarQuestao: SubmitHandler<adicionarQuestao> = async (
-    values
-  ) => {
+  const handleadicionarQuestao: SubmitHandler<adicionarQuestao> = async (values) => {
     await handleCriar.mutateAsync(values);
   };
 
@@ -138,53 +159,74 @@ function AdicionarQuestao() {
               variant="flushed"
               name="descricao"
               error={formState.errors.descricao}
-              {...register("descricao")}
               type="text"
               placeholder="Enunciado da questão"
+              {...register("descricao")}
             />
+            <HStack w="100%" color="purple.500">
+            <b>a. </b>
             <Input
               variant="flushed"
               name="alternativa1"
               error={formState.errors.alternativa1}
-              {...register("alternativa1")}
               type="text"
               placeholder="Primeira alternativa"
+              {...register("alternativa1")}
             />
+            </HStack>
+
+            <HStack w="100%" color="purple.500">
+            <b>b. </b>
             <Input
               variant="flushed"
               name="alternativa2"
               error={formState.errors.alternativa2}
-              {...register("alternativa2")}
               type="text"
               placeholder="Segunda alternativa"
+              {...register("alternativa2")}
             />
+            </HStack>
 
+            <HStack w="100%" color="purple.500">
+            <b>c. </b>
             <Input
               variant="flushed"
               name="alternativa3"
               error={formState.errors.alternativa3}
-              {...register("alternativa3")}
               type="text"
               placeholder="Terceira alternativa"
+              {...register("alternativa3")}
             />
+            </HStack>
+           
 
+             <HStack w="100%" color="purple.500">
+            <b>d. </b>
+            
             <Input
               variant="flushed"
               name="alternativa4"
               error={formState.errors.alternativa4}
-              {...register("alternativa4")}
               type="text"
               placeholder="Quarta alternativa"
+              {...register("alternativa4")}
             />
 
-            <Input
-              variant="flushed"
-              name="correta"
-              error={formState.errors.correta}
-              {...register("correta")}
-              type="text"
-              placeholder="Resposta da questão"
-            />
+           
+            </HStack>
+            <Select
+                placeholder="Selecione a alternativa correta"
+                borderColor="red"
+                color="purple.800"
+                fontWeight="bold"
+                onChange={(e) => setCorreta(e.target.value)}
+                {...register("correta")}
+              >
+                <option value="alternativa1">Letra a</option>
+                <option value="alternativa2">Letra b</option>
+                <option value="alternativa3">Letra c</option>
+                <option value="alternativa4">Letra d</option>
+              </Select>
 
             <HStack justify="flex-start" align="center" w="100%">
               <Select
